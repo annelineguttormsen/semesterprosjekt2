@@ -1,0 +1,8 @@
+/*endre det her, lag scss*/
+#boardgame {
+    background:url("https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&w=1000&q=80")no-repeat center center fixed;
+    background-size:100% 100%;
+    display:block;
+    margin:50px auto;
+    border-radius:15px;
+}
