@@ -6,6 +6,18 @@ let tokenXPos;
 let tokenYPos;
 let YPosRow;
 
+let dice;
+
+let token = {
+    boardPlaceNumber: 1,
+    xPos: 0,
+    yPos: 0,
+    img: "#",
+    updatePosition: function() {
+        console.log("updatePosition er tilkalt");
+    }
+}
+
 function calculatePosition(boardPlaceNumber) {
     //regn ut hvor Y er ut fra 6 mulige y posisjoner
     YPosRow = Math.trunc((boardPlaceNumber/6)-0.1);
@@ -30,6 +42,13 @@ function calculatePosition(boardPlaceNumber) {
     console.log("X posisjon er: " + tokenXPos + " og Y posisjon er: " + tokenYPos);
     console.log("Regnet ut row: " + (YPosRow + 1));
     update();
+}calculatePosition(boardPlaceNumber);
+function rollDice() {
+    dice = Math.floor(Math.random()*6)+1;
+    boardPlaceNumber += dice;
+    calculatePosition(boardPlaceNumber);
+    console.log("du rullet " + dice + " og er nå på " + boardPlaceNumber);
+    //return dice;
 }
 function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
