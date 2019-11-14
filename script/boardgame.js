@@ -5,6 +5,7 @@ let dice;
 
 let oldBoardPlaceNumber;
 
+//klasser
 class Player {
     constructor(boardPlaceNumber,xPos,yPos,img) {
         this.boardPlaceNumber = boardPlaceNumber;
@@ -12,16 +13,24 @@ class Player {
         this.yPos = yPos;
         this.img = img;
     }
-    updatePosition() {
-        console.log("updatePosition er tilkalt");
-    }
-    animateSliding(oldBoardPlaceNumber, boardPlaceNumber) {
-        for (oldBoardPlaceNumber;oldBoardPlaceNumber<=boardPlaceNumber;oldBoardPlaceNumber++) {
-            calculatePosition(this,oldBoardPlaceNumber);
+    animateSliding(oBPC, bPC) {
+        //deklarer en variabel som bestemmer lengen på timeout
+        let i = 0;
+        for (oBPC;oBPC<=bPC;oBPC++) {
+            //lag closure til this objektet for loopen
+            let thisObject = this;
+            //for hver loop sett en timeout som hver er
+            //300 sekunder lengre enn forrige
+            (function(oBPC) {
+                setTimeout(function(){calculatePosition(thisObject,oBPC)},300*i);
+                i++;
+            }(oBPC));
         }
+        console.log("Nytt nummer for dette objektet er " + this.boardPlaceNumber);
     }
 }
 
+//objekter, deklarert med og uten klasse
 let diceObject = {
     width:220,
     height:230,
@@ -33,14 +42,22 @@ let diceObject = {
 let player1 = new Player(1,20,20,"#");
 let player2 = new Player(1,20,20,"#");
 
+//lag posisjoner til fem tilfeldige feller
+let traps = new Array();
+
+for (var i = 0;i<5;i++) {
+    traps.push(Math.ceil(Math.random()*30));
+}
+console.log(traps);
+
 function rollDice(token) {
     dice = Math.floor(Math.random()*6)+1;
     oldBoardPlaceNumber = token.boardPlaceNumber;
+    //endre token sitt bpc til det nye, viktig så animatesliding metode blir riktig
     token.boardPlaceNumber += dice;
     //gå til token og animer at spillebrikken går over brettet
     token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
-    console.log("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
-    //return dice;
+    console.warn("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
 }
 
 function calculatePosition(token, boardPlaceNumber) {
@@ -65,7 +82,6 @@ function calculatePosition(token, boardPlaceNumber) {
         }
     }
     console.log("X posisjon er: " + token.xPos + " og Y posisjon er: " + token.yPos);
-    console.log("Regnet ut row: " + (YPosRow + 1));
     update();
 }
 
@@ -76,7 +92,9 @@ function update() {
     drawObject(player2.xPos,player2.yPos,90,90,"tomato");
     //draw dice
     drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
-}update();
+}
+//fjern funksjon og sett opp startGame() funksjon
+update();
 
 //generell draw funksjon
 function drawObject(xPos,yPos,width,height,bgcolor,img) {
