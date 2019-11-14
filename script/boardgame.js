@@ -22,6 +22,13 @@ class Player {
     }
 }
 
+let diceObject = {
+    width:220,
+    height:230,
+    xPos:560,
+    yPos:250
+}
+
 //lag players ut av player klassen
 let player1 = new Player(1,20,20,"#");
 let player2 = new Player(1,20,20,"#");
@@ -68,7 +75,7 @@ function update() {
     drawObject(player1.xPos,player1.yPos,90,90,"#000");
     drawObject(player2.xPos,player2.yPos,90,90,"tomato");
     //draw dice
-    drawObject(560,250,220,230,"lightblue");
+    drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
 }update();
 
 //generell draw funksjon
@@ -86,6 +93,14 @@ function mousePosition(event) {
     let canvasInfo = canvas.getBoundingClientRect();
     let x = event.clientX;
     let y = event.clientY;
-    console.log("Dette er canvasinfo: " + canvasInfo.top + " og dette er museposisjon: " + x + " og " + y);
-    drawObject((x - canvasInfo.left),(y - canvasInfo.top),10,10,"red");
+    canvasX = x - canvasInfo.left;
+    canvasY = y - canvasInfo.top;
+    if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
+        if (canvasX < (diceObject.xPos + diceObject.width) && canvasY < (diceObject.yPos + diceObject.width)) {
+            rollDice(player1);
+        }
+    }
+    else {
+        console.log("mousePosition() fant ingenting");
+    }
 }
