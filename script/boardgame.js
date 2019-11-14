@@ -2,7 +2,8 @@ const canvas = document.getElementById("boardgame");
 const ctx = canvas.getContext("2d");
 
 let dice;
-let newBoardPlaceNumber;
+
+let oldBoardPlaceNumber;
 
 class Player {
     constructor(boardPlaceNumber,xPos,yPos,img) {
@@ -14,8 +15,10 @@ class Player {
     updatePosition() {
         console.log("updatePosition er tilkalt");
     }
-    animateSliding() {
-        console.log("animateSliding er tilkalt");
+    animateSliding(oldBoardPlaceNumber, boardPlaceNumber) {
+        for (oldBoardPlaceNumber;oldBoardPlaceNumber<=boardPlaceNumber;oldBoardPlaceNumber++) {
+            calculatePosition(this,oldBoardPlaceNumber);
+        }
     }
 }
 
@@ -25,8 +28,10 @@ let player2 = new Player(1,20,20,"#");
 
 function rollDice(token) {
     dice = Math.floor(Math.random()*6)+1;
+    oldBoardPlaceNumber = token.boardPlaceNumber;
     token.boardPlaceNumber += dice;
-    calculatePosition(token, token.boardPlaceNumber);
+    //gå til token og animer at spillebrikken går over brettet
+    token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
     console.log("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
     //return dice;
 }
@@ -59,18 +64,28 @@ function calculatePosition(token, boardPlaceNumber) {
 
 function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawTokens();
+    //draw players
+    drawObject(player1.xPos,player1.yPos,90,90,"#000");
+    drawObject(player2.xPos,player2.yPos,90,90,"tomato");
+    //draw dice
+    drawObject(560,250,220,230,"lightblue");
 }update();
 
-function drawTokens() {
+//generell draw funksjon
+function drawObject(xPos,yPos,width,height,bgcolor,img) {
     ctx.beginPath();
-    ctx.fillStyle="#000000";
-    ctx.rect(player1.xPos,player1.yPos,90,90);
+    if (bgcolor !== undefined) {
+        ctx.fillStyle=bgcolor;
+    }
+    ctx.rect(xPos,yPos,width,height);
     ctx.fill();
     ctx.closePath();
-    ctx.beginPath();
-    ctx.fillStyle="tomato";
-    ctx.rect(player2.xPos,player2.yPos,90,90);
-    ctx.fill();
-    ctx.closePath();
+}
+
+function mousePosition(event) {
+    let canvasInfo = canvas.getBoundingClientRect();
+    let x = event.clientX;
+    let y = event.clientY;
+    console.log("Dette er canvasinfo: " + canvasInfo.top + " og dette er museposisjon: " + x + " og " + y);
+    drawObject((x - canvasInfo.left),(y - canvasInfo.top),10,10,"red");
 }
