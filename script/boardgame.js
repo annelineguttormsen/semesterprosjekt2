@@ -1,9 +1,18 @@
 const canvas = document.getElementById("boardgame");
 const ctx = canvas.getContext("2d");
 
+function canvasEventListener() {
+    mousePosition(event);
+}
+canvas.addEventListener("click",canvasEventListener);
+
 let dice;
 
 let oldBoardPlaceNumber;
+
+//audio
+let victoryAudio = new Audio("./audio/victory.WAV");
+let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
@@ -20,13 +29,26 @@ class Player {
             //lag closure til this objektet for loopen
             let thisObject = this;
             //for hver loop sett en timeout som hver er
-            //300 sekunder lengre enn forrige
+            //300 millisekunder lengre enn forrige
             (function(oBPC) {
                 setTimeout(function(){calculatePosition(thisObject,oBPC)},300*i);
                 i++;
             }(oBPC));
+            if (oBPC == 30) {
+                setTimeout(function(){console.log("du vant!")},300*i);
+                break;
+            }
+            if (oBPC == bPC) {
+                setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
+            }
         }
-        console.log("Nytt nummer for dette objektet er " + this.boardPlaceNumber);
+    }
+}
+
+class Traps {
+    constructor(infoText,boardPlaceNumber) {
+        this.infoText = infoText;
+        this.boardPlaceNumber = boardPlaceNumber;
     }
 }
 
@@ -43,12 +65,23 @@ let player1 = new Player(1,20,20,"#");
 let player2 = new Player(1,20,20,"#");
 
 //lag posisjoner til fem tilfeldige feller
-let traps = new Array();
+/*let trapPosition = new Array();
 
 for (var i = 0;i<5;i++) {
-    traps.push(Math.ceil(Math.random()*30));
+    let tilfeldigTall = (Math.ceil(Math.random()*28)+1);
+    for (var i = 0;i<trapPosition.length;i++) {
+        if (tilfeldigTall == trapPosition[i]) {
+            if (tilfeldigTall == 29) {
+                trapPosition.push(28);
+            }
+            else {
+                tilfeldigTall = trapPosition[i]++;
+            }
+        }
+    }
+    trapPosition.push(tilfeldigTall);
 }
-console.log(traps);
+console.log(trapPosition);*/
 
 function rollDice(token) {
     dice = Math.floor(Math.random()*6)+1;
@@ -57,7 +90,7 @@ function rollDice(token) {
     token.boardPlaceNumber += dice;
     //gå til token og animer at spillebrikken går over brettet
     token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
-    console.warn("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
+    console.log("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
 }
 
 function calculatePosition(token, boardPlaceNumber) {
@@ -81,7 +114,6 @@ function calculatePosition(token, boardPlaceNumber) {
             token.xPos = 560-((boardPlaceNumber%6)*90);
         }
     }
-    console.log("X posisjon er: " + token.xPos + " og Y posisjon er: " + token.yPos);
     update();
 }
 
@@ -108,9 +140,14 @@ function drawObject(xPos,yPos,width,height,bgcolor,img) {
 }
 
 function mousePosition(event) {
+    //fjern eventlistener til players tur er over
+    canvas.removeEventListener("click",canvasEventListener);
+    //få tak i informasjon om canvas elementet
     let canvasInfo = canvas.getBoundingClientRect();
+    //få deretter tak i informasjon om musepeker på client
     let x = event.clientX;
     let y = event.clientY;
+    //regn ut posisjon av museklikk på canvas elementet
     canvasX = x - canvasInfo.left;
     canvasY = y - canvasInfo.top;
     if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
