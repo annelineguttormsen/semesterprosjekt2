@@ -1,0 +1,28 @@
+* {
+    margin:0;
+    padding:0;
+}
+.page {
+    background:#f2f2f2;
+    font-family:Helvetica, Arial, sans-serif;
+    &__warning {
+        &--info {
+            background:lightblue;
+            position:fixed;
+            top:20px;
+            padding:20px;
+            border-radius:30px;
+        }
+    }
+}
+.canvas-wrap {
+    background:#fff;
+}
+#boardgame {
+    background:#f2f2f2;
+    background:url("../grid.svg")no-repeat;
+    background-position:20px 20px;
+    background-size:540px 450px;
+    display:block;
+    margin:50px auto;
+}
