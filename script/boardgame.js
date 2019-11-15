@@ -1,13 +1,15 @@
 const canvas = document.getElementById("boardgame");
 const ctx = canvas.getContext("2d");
 
+//lag en funksjon for eventlistener til canvas
+//så eventlistener kan både fjernes og legges til
 function canvasEventListener() {
     mousePosition(event);
 }
 canvas.addEventListener("click",canvasEventListener);
 
+//globale variabler
 let dice;
-
 let oldBoardPlaceNumber;
 
 //audio
@@ -39,16 +41,43 @@ class Player {
                 break;
             }
             if (oBPC == bPC) {
+                //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
                 setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
+                //sjekk om player har havnet på en felle
+                for (let y = 0;y<allTraps.length;y++) {
+                    if (bPC == allTraps[y].boardPlaceNumber) {
+                        setTimeout(function(){
+                            allTraps[y].trapFunction(thisObject);
+                        },300*i);
+                    }
+                }
             }
         }
     }
 }
 
-class Traps {
-    constructor(infoText,boardPlaceNumber) {
+class Trap {
+    constructor(infoText,boardPlaceNumber, goForward, steps, backToStart) {
         this.infoText = infoText;
         this.boardPlaceNumber = boardPlaceNumber;
+        this.goForward = goForward;
+        this.steps = steps;
+        this.backToStart = backToStart;
+    }
+    trapFunction(token) {
+        if (this.backToStart == true) {
+            //send brikken til start
+            token.boardPlaceNumber = 1;
+            calculatePosition(token,token.boardPlaceNumber);
+            console.log("go back to start");
+        }
+        if (this.goForward == true) {
+            console.log("jeg skal gå fremover");
+        } 
+        else if (this.goForward == false) {
+            console.log("jeg skal gå bakover");
+        }
+        
     }
 }
 
@@ -64,7 +93,17 @@ let diceObject = {
 let player1 = new Player(1,20,20,"#");
 let player2 = new Player(1,20,20,"#");
 
-//lag posisjoner til fem tilfeldige feller
+//TODO: GJØR TRAPS POSITIONS TILFELDIGE!! (2-29)
+let trapsPositions = [5,8,15,23,27];
+//lag feller
+let goBackToStart = new Trap("Go back to start",trapsPositions[0],undefined,undefined,true);
+let twoStepsForward = new Trap("Take 5 steps forward",trapsPositions[1],true,2);
+let fiveStepsBack = new Trap("Take 5 steps back",trapsPositions[2],false,5);
+let switchPlaces = new Trap("Switch places",trapsPositions[3]);
+let rollAgain = new Trap("Roll again",trapsPositions[4]);
+
+let allTraps = [goBackToStart,twoStepsForward];
+
 /*let trapPosition = new Array();
 
 for (var i = 0;i<5;i++) {
@@ -159,3 +198,9 @@ function mousePosition(event) {
         console.log("mousePosition() fant ingenting");
     }
 }
+
+/*
+function canvasMessage(info) {
+    drawObject()
+}
+*/
