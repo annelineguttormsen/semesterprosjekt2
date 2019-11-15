@@ -12,6 +12,19 @@ canvas.addEventListener("click",canvasEventListener);
 let dice;
 let oldBoardPlaceNumber;
 
+const characterImg = [
+    "Eddard Stark",
+    "Daenerysyresy",
+    "Jon Snow",
+    "Khal Drogo",
+    "Cersei Lannister",
+    "Arya Stark",
+    "Tyrion Lannister",
+    "Jaime Lannister",
+    "Joffrey Baratheon",
+    "Tormund Giantsbane"
+];
+
 //audio
 let victoryAudio = new Audio("./audio/victory.WAV");
 let introAudio = new Audio("./audio/introtoot.WAV");
@@ -159,8 +172,8 @@ function calculatePosition(token, boardPlaceNumber) {
 function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     //draw players
-    drawObject(player1.xPos,player1.yPos,90,90,"#000");
-    drawObject(player2.xPos,player2.yPos,90,90,"tomato");
+    drawObject(player1.xPos,player1.yPos,40,40,"#000");
+    drawObject(player2.xPos,(player2.yPos+50),40,40,"tomato");
     //draw dice
     drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
 }
@@ -196,6 +209,7 @@ function mousePosition(event) {
     }
     else {
         console.log("mousePosition() fant ingenting");
+        canvas.addEventListener("click",canvasEventListener);
     }
 }
 

@@ -26,3 +26,25 @@
     display:block;
     margin:50px auto;
 }
+.card {
+    width:200px;
+    height:500px;
+    background:tomato;
+}
+.btn {
+    padding:10px 20px;
+    margin:10px 0px;
+    outline:none;
+    border:none;
+    color:white;
+    font-weight:700;
+    &--reset {
+        background:red;
+    }
+    &--start {
+        background:lightseagreen;
+        &:disabled {
+            background:rgb(152, 192, 189);
+        }
+    }
+}
