@@ -11,8 +11,6 @@ canvas.addEventListener("click",canvasEventListener);
 //globale variabler
 let dice, oldBoardPlaceNumber;
 
-let player1Turn = true;
-
 const characterImg = [
     "Eddard Stark",
     "Daenerysyresy",
@@ -32,37 +30,63 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,imgNr) {
+    constructor(boardPlaceNumber,xPos,yPos,imgNr,active) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
         this.imgNr = characterImg[imgNr];
+        this.active = active;
     }
-    animateSliding(oBPC, bPC) {
+    animateSliding(oBPN, bPN, goForward) {
         //deklarer en variabel som bestemmer lengen på timeout
         let i = 0;
-        for (oBPC;oBPC<=bPC;oBPC++) {
-            //lag closure til this objektet for loopen
-            let thisObject = this;
+        let x = 0;
+        //lag closure til this objektet for loopen
+        let thisObject = this;
+        for (oBPN;oBPN<=bPN;oBPN++) {
             //for hver loop sett en timeout som hver er
             //300 millisekunder lengre enn forrige
-            (function(oBPC) {
-                setTimeout(function(){calculatePosition(thisObject,oBPC)},300*i);
+            (function(oBPN) {
+                setTimeout(function(){calculatePosition(thisObject,oBPN)},300*i);
                 i++;
-            }(oBPC));
-            if (oBPC == 30) {
+            }(oBPN));
+            if (oBPN == 30) {
                 setTimeout(function(){console.log("du vant!")},300*i);
                 break;
             }
-            if (oBPC == bPC) {
+            if (oBPN == bPN) {
                 //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
                 setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
                 //sjekk om player har havnet på en felle
                 for (let y = 0;y<allTraps.length;y++) {
-                    if (bPC == allTraps[y].boardPlaceNumber) {
+                    if (bPN == allTraps[y].boardPlaceNumber) {
                         setTimeout(function(){
                             allTraps[y].trapFunction(thisObject);
                         },300*i);
+                    }
+                }
+            }
+        }
+        //funksjon for hvis token skal gå bakover
+        if (goForward == false) {
+            for (oBPN;oBPN>=bPN;oBPN--) {
+                (function(oBPN) {
+                    setTimeout(function(){calculatePosition(thisObject,oBPN)},300*i);
+                    i++;
+                }(oBPN));
+                if (oBPN == 30) {
+                    setTimeout(function(){console.log("du vant!")},300*i);
+                    break;
+                }
+                if (oBPN == bPN) {
+                    setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
+                    //sjekk om player har havnet på en felle
+                    for (let y = 0;y<allTraps.length;y++) {
+                        if (bPN == allTraps[y].boardPlaceNumber) {
+                            setTimeout(function(){
+                                allTraps[y].trapFunction(thisObject);
+                            },300*i);
+                        }
                     }
                 }
             }
@@ -71,27 +95,53 @@ class Player {
 }
 
 class Trap {
-    constructor(infoText,boardPlaceNumber, goForward, steps, backToStart) {
+    constructor(infoText,boardPlaceNumber, goForward, steps, specialFunction) {
         this.infoText = infoText;
         this.boardPlaceNumber = boardPlaceNumber;
         this.goForward = goForward;
         this.steps = steps;
-        this.backToStart = backToStart;
+        this.specialFunction = specialFunction;
     }
     trapFunction(token) {
-        if (this.backToStart == true) {
-            //send brikken til start
-            token.boardPlaceNumber = 1;
-            calculatePosition(token,token.boardPlaceNumber);
+        oldBoardPlaceNumber = token.boardPlaceNumber;
+        if (this.specialFunction == "backtostart") {
             console.log("go back to start");
+            //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
+            token.boardPlaceNumber -= this.steps;
+            //gå til token og animer at spillebrikken går over brettet
+            token.animateSliding(oldBoardPlaceNumber,1, false);
         }
         if (this.goForward == true) {
             console.log("jeg skal gå fremover");
+            //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
+            token.boardPlaceNumber += this.steps;
+            //gå til token og animer at spillebrikken går over brettet
+            token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
         } 
-        else if (this.goForward == false) {
+        if (this.goForward == false) {
             console.log("jeg skal gå bakover");
+            //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
+            token.boardPlaceNumber -= this.steps;
+            //gå til token og animer at spillebrikken går over brettet
+            token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber, false);
         }
-        
+        if (this.specialFunction == "switch") {
+            console.log("switch plasser");
+            for (let z = 0;z<playerArray.length;z++) {
+                if (playerArray[z].active == false) {
+                    oldBoardPlaceNumber = token.boardPlaceNumber;
+                    token.boardPlaceNumber = playerArray[z].boardPlaceNumber;
+                    playerArray[z].boardPlaceNumber = oldBoardPlaceNumber;
+                    calculatePosition(token, token.boardPlaceNumber);
+                    calculatePosition(playerArray[z],playerArray[z].boardPlaceNumber);
+                }
+                console.log("gått gjennom forløkke");
+            }
+        }
+        if (this.specialFunction == "rollagain") {
+            console.log("roll again");
+            rollDice(token);
+        }
     }
 }
 
@@ -107,19 +157,25 @@ let diceObject = {
 let player1ImgNr = localStorage.getItem("player1");
 let player2ImgNr = localStorage.getItem("player2");
 
-let player1 = new Player(1,20,20,player1ImgNr);
-let player2 = new Player(1,20,20,player2ImgNr);
+let player1 = new Player(1,20,20,player1ImgNr,true);
+let player2 = new Player(1,20,20,player2ImgNr,false);
+let playerArray = [player1,player2];
 
-//TODO: GJØR TRAPS POSITIONS TILFELDIGE!! range:2-29
 let trapsPositions = [5,8,15,23,27];
 //lag feller
-let goBackToStart = new Trap("Go back to start",trapsPositions[0],undefined,undefined,true);
-let twoStepsForward = new Trap("Take 5 steps forward",trapsPositions[1],true,2);
+let goBackToStart = new Trap("Go back to start",trapsPositions[0],undefined,undefined,"backtostart");
+let twoStepsForward = new Trap("Take 2 steps forward",trapsPositions[1],true,2);
 let fiveStepsBack = new Trap("Take 5 steps back",trapsPositions[2],false,5);
-let switchPlaces = new Trap("Switch places",trapsPositions[3]);
-let rollAgain = new Trap("Roll again",trapsPositions[4]);
+let switchPlaces = new Trap("Switch places",trapsPositions[3],undefined,undefined,"switch");
+let rollAgain = new Trap("Roll again",trapsPositions[4],undefined,undefined,"rollagain");
 
-let allTraps = [goBackToStart,twoStepsForward];
+let allTraps = [
+    goBackToStart,
+    twoStepsForward,
+    fiveStepsBack,
+    switchPlaces,
+    rollAgain
+];
 
 /*let trapPosition = new Array();
 
@@ -140,9 +196,10 @@ for (var i = 0;i<5;i++) {
 console.log(trapPosition);*/
 
 function rollDice(token) {
-    dice = Math.floor(Math.random()*6)+1;
+    //dice = Math.floor(Math.random()*6)+1;
+    dice = 22;
     oldBoardPlaceNumber = token.boardPlaceNumber;
-    //endre token sitt bpc til det nye, viktig så animatesliding metode blir riktig
+    //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
     token.boardPlaceNumber += dice;
     //gå til token og animer at spillebrikken går over brettet
     token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
