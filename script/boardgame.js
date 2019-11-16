@@ -9,8 +9,9 @@ function canvasEventListener() {
 canvas.addEventListener("click",canvasEventListener);
 
 //globale variabler
-let dice;
-let oldBoardPlaceNumber;
+let dice, oldBoardPlaceNumber;
+
+let player1Turn = true;
 
 const characterImg = [
     "Eddard Stark",
@@ -31,11 +32,11 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,img) {
+    constructor(boardPlaceNumber,xPos,yPos,imgNr) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.img = img;
+        this.imgNr = characterImg[imgNr];
     }
     animateSliding(oBPC, bPC) {
         //deklarer en variabel som bestemmer lengen på timeout
@@ -102,11 +103,14 @@ let diceObject = {
     yPos:250
 }
 
-//lag players ut av player klassen
-let player1 = new Player(1,20,20,"#");
-let player2 = new Player(1,20,20,"#");
+//få tak i imgnr fra ls, lag players ut av player klassen
+let player1ImgNr = localStorage.getItem("player1");
+let player2ImgNr = localStorage.getItem("player2");
 
-//TODO: GJØR TRAPS POSITIONS TILFELDIGE!! (2-29)
+let player1 = new Player(1,20,20,player1ImgNr);
+let player2 = new Player(1,20,20,player2ImgNr);
+
+//TODO: GJØR TRAPS POSITIONS TILFELDIGE!! range:2-29
 let trapsPositions = [5,8,15,23,27];
 //lag feller
 let goBackToStart = new Trap("Go back to start",trapsPositions[0],undefined,undefined,true);

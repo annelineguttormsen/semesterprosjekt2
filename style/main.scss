@@ -7,6 +7,7 @@
     font-family:Helvetica, Arial, sans-serif;
     &__warning {
         &--info {
+            display:none;
             background:lightblue;
             position:fixed;
             top:20px;
@@ -38,13 +39,19 @@
     border:none;
     color:white;
     font-weight:700;
+    background:#4b4b4b;
+    a {
+        display:block;
+        text-decoration:none;
+        color:white;
+    }
     &--reset {
         background:red;
     }
     &--start {
         background:lightseagreen;
         &:disabled {
-            background:rgb(152, 192, 189);
+            background:rgb(175, 175, 175);
         }
     }
 }

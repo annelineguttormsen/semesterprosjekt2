@@ -8,6 +8,7 @@
   font-family: Helvetica, Arial, sans-serif;
 }
 .page__warning--info {
+  display: none;
   background: lightblue;
   position: fixed;
   top: 20px;
@@ -41,6 +42,12 @@
   border: none;
   color: white;
   font-weight: 700;
+  background: #4b4b4b;
+}
+.btn a {
+  display: block;
+  text-decoration: none;
+  color: white;
 }
 .btn--reset {
   background: red;
@@ -49,7 +56,7 @@
   background: lightseagreen;
 }
 .btn--start:disabled {
-  background: #98c0bd;
+  background: #afafaf;
 }
 
 /*# sourceMappingURL=main.css.map */
