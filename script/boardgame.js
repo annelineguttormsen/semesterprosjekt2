@@ -30,17 +30,16 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,imgNr,active) {
+    constructor(boardPlaceNumber,xPos,yPos,imgNr,activeTurn) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
         this.imgNr = characterImg[imgNr];
-        this.active = active;
+        this.activeTurn = activeTurn;
     }
     animateSliding(oBPN, bPN, goForward) {
         //deklarer en variabel som bestemmer lengen på timeout
         let i = 0;
-        let x = 0;
         //lag closure til this objektet for loopen
         let thisObject = this;
         for (oBPN;oBPN<=bPN;oBPN++) {
@@ -55,16 +54,20 @@ class Player {
                 break;
             }
             if (oBPN == bPN) {
-                //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
-                setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
                 //sjekk om player har havnet på en felle
                 for (let y = 0;y<allTraps.length;y++) {
                     if (bPN == allTraps[y].boardPlaceNumber) {
                         setTimeout(function(){
-                            allTraps[y].trapFunction(thisObject);
+                            diceObject.activeEventListener = false;
+                            messageObject.trapFunction = allTraps[y].trapFunction(thisObject);
+                            canvasMessage(allTraps[y].infoText);
+                            //TODO: VENT med å gjøre trapfunction til ETTER eventlistener er tilkalt
+                            //allTraps[y].trapFunction(thisObject);
                         },300*i);
                     }
                 }
+                //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
+                setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
             }
         }
         //funksjon for hvis token skal gå bakover
@@ -79,15 +82,18 @@ class Player {
                     break;
                 }
                 if (oBPN == bPN) {
-                    setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
                     //sjekk om player har havnet på en felle
                     for (let y = 0;y<allTraps.length;y++) {
                         if (bPN == allTraps[y].boardPlaceNumber) {
                             setTimeout(function(){
-                                allTraps[y].trapFunction(thisObject);
+                                diceObject.activeEventListener = false;
+                                messageObject.trapFunction = allTraps[y].trapFunction(thisObject);
+                                canvasMessage(allTraps[y].infoText);
+                                //allTraps[y].trapFunction(thisObject);
                             },300*i);
                         }
                     }
+                    setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
                 }
             }
         }
@@ -107,7 +113,7 @@ class Trap {
         if (this.specialFunction == "backtostart") {
             console.log("go back to start");
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
-            token.boardPlaceNumber -= this.steps;
+            token.boardPlaceNumber = 1;
             //gå til token og animer at spillebrikken går over brettet
             token.animateSliding(oldBoardPlaceNumber,1, false);
         }
@@ -128,20 +134,20 @@ class Trap {
         if (this.specialFunction == "switch") {
             console.log("switch plasser");
             for (let z = 0;z<playerArray.length;z++) {
-                if (playerArray[z].active == false) {
+                if (playerArray[z].activeTurn == false) {
                     oldBoardPlaceNumber = token.boardPlaceNumber;
                     token.boardPlaceNumber = playerArray[z].boardPlaceNumber;
                     playerArray[z].boardPlaceNumber = oldBoardPlaceNumber;
                     calculatePosition(token, token.boardPlaceNumber);
                     calculatePosition(playerArray[z],playerArray[z].boardPlaceNumber);
                 }
-                console.log("gått gjennom forløkke");
             }
         }
         if (this.specialFunction == "rollagain") {
             console.log("roll again");
             rollDice(token);
         }
+        diceObject.activeEventListener = true;
     }
 }
 
@@ -150,7 +156,8 @@ let diceObject = {
     width:220,
     height:230,
     xPos:560,
-    yPos:250
+    yPos:250,
+    activeEventListener:true
 }
 
 //få tak i imgnr fra ls, lag players ut av player klassen
@@ -163,11 +170,11 @@ let playerArray = [player1,player2];
 
 let trapsPositions = [5,8,15,23,27];
 //lag feller
-let goBackToStart = new Trap("Go back to start",trapsPositions[0],undefined,undefined,"backtostart");
-let twoStepsForward = new Trap("Take 2 steps forward",trapsPositions[1],true,2);
-let fiveStepsBack = new Trap("Take 5 steps back",trapsPositions[2],false,5);
-let switchPlaces = new Trap("Switch places",trapsPositions[3],undefined,undefined,"switch");
-let rollAgain = new Trap("Roll again",trapsPositions[4],undefined,undefined,"rollagain");
+let goBackToStart = new Trap("Go \nback to \nstart",trapsPositions[0],undefined,undefined,"backtostart");
+let twoStepsForward = new Trap("Take \n2 steps \nforward",trapsPositions[1],true,2);
+let fiveStepsBack = new Trap("Take \n5 steps \nback",trapsPositions[2],false,5);
+let switchPlaces = new Trap("Swi\ntch \nplaces",trapsPositions[3],undefined,undefined,"switch");
+let rollAgain = new Trap("Ro\nll a\ngain",trapsPositions[4],undefined,undefined,"rollagain");
 
 let allTraps = [
     goBackToStart,
@@ -176,6 +183,15 @@ let allTraps = [
     switchPlaces,
     rollAgain
 ];
+
+let messageObject = {
+    activeEventlistener: false,
+    trapFunction:allTraps[0],
+    xPos:350,
+    yPos:230,
+    width:100,
+    height:30
+}
 
 /*let trapPosition = new Array();
 
@@ -196,8 +212,9 @@ for (var i = 0;i<5;i++) {
 console.log(trapPosition);*/
 
 function rollDice(token) {
-    //dice = Math.floor(Math.random()*6)+1;
-    dice = 22;
+    dice = Math.floor(Math.random()*6)+1;
+    //DEBUG: fjern når ferdig
+    //dice = 4;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
     token.boardPlaceNumber += dice;
@@ -265,7 +282,21 @@ function mousePosition(event) {
     canvasY = y - canvasInfo.top;
     if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
         if (canvasX < (diceObject.xPos + diceObject.width) && canvasY < (diceObject.yPos + diceObject.width)) {
-            rollDice(player1);
+            if (diceObject.activeEventListener) {
+                rollDice(player1);
+            }
+        }
+    }
+    //SJEKK KNAPP PÅ CANVASMESSAGE
+    else if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
+        if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
+            if (messageObject.activeEventListener) {
+                update();
+                messageObject.activeEventlistener = false;
+                diceObject.activeEventListener = true;
+                messageObject.trapFunction();
+                canvas.addEventListener("click",canvasEventListener);
+            }
         }
     }
     else {
@@ -274,8 +305,18 @@ function mousePosition(event) {
     }
 }
 
-/*
 function canvasMessage(info) {
-    drawObject()
+    messageObject.activeEventListener = true;
+    drawObject(200,125,400,190,"tomato");
+    let sentences = info.split("\n");
+    let i;
+    for (i = 0;i<sentences.length;i++) {
+        ctx.font = "18px Helvetica";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "hanging";
+        ctx.fillText(sentences[i],400,(150+(30*i)));
+    }
+    //tegn knapp
+    drawObject(350,170+(30*i),100,30,"green");
 }
-*/
