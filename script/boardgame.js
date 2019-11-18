@@ -59,9 +59,10 @@ class Player {
                     if (bPN == allTraps[y].boardPlaceNumber) {
                         setTimeout(function(){
                             diceObject.activeEventListener = false;
-                            messageObject.trapFunction = allTraps[y].trapFunction(thisObject);
+                            messageObject.trapFunction = function() {
+                                allTraps[y].trapFunction(thisObject);
+                            }
                             canvasMessage(allTraps[y].infoText);
-                            //TODO: VENT med å gjøre trapfunction til ETTER eventlistener er tilkalt
                             //allTraps[y].trapFunction(thisObject);
                         },300*i);
                     }
@@ -87,7 +88,9 @@ class Player {
                         if (bPN == allTraps[y].boardPlaceNumber) {
                             setTimeout(function(){
                                 diceObject.activeEventListener = false;
-                                messageObject.trapFunction = allTraps[y].trapFunction(thisObject);
+                                messageObject.trapFunction = function() {
+                                    allTraps[y].trapFunction(thisObject);
+                                }
                                 canvasMessage(allTraps[y].infoText);
                                 //allTraps[y].trapFunction(thisObject);
                             },300*i);
@@ -186,7 +189,9 @@ let allTraps = [
 
 let messageObject = {
     activeEventlistener: false,
-    trapFunction:allTraps[0],
+    trapFunction: function() {
+        allTraps[0].trapFunction(player1);
+    },
     xPos:350,
     yPos:230,
     width:100,
@@ -292,9 +297,11 @@ function mousePosition(event) {
         if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
             if (messageObject.activeEventListener) {
                 update();
+                //message skal fjernes, så gjør om til false
+                //dice object skal kunne brukes igjen, så sett til true
                 messageObject.activeEventlistener = false;
                 diceObject.activeEventListener = true;
-                messageObject.trapFunction();
+                messageObject.trapFunction(player1);    
                 canvas.addEventListener("click",canvasEventListener);
             }
         }
