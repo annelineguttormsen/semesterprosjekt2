@@ -200,7 +200,6 @@ function shuffleArray(array) {
     }
     let randomIndex = Math.ceil(Math.random()*(array.length-5));
     array = array.splice(randomIndex,5);
-    console.log(array);
     return array;
 }
 
@@ -221,6 +220,7 @@ let allTraps = [
     rollAgain
 ];
 
+//kalkuler posisjonene til felle basert på BPN
 for (let trapIndex in allTraps) {
     calculatePosition(allTraps[trapIndex],allTraps[trapIndex].boardPlaceNumber);
 }
