@@ -30,10 +30,11 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,imgNr,activeTurn) {
+    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.bgColor = bgColor;
         this.imgNr = characterImg[imgNr];
         this.activeTurn = activeTurn;
     }
@@ -111,7 +112,9 @@ class Player {
 }
 
 class Trap {
-    constructor(infoText,boardPlaceNumber, goForward, steps, specialFunction) {
+    constructor(xPos,yPos,infoText,boardPlaceNumber, goForward, steps, specialFunction) {
+        this.xPos = xPos;
+        this.yPos = yPos;
         this.infoText = infoText;
         this.boardPlaceNumber = boardPlaceNumber;
         this.goForward = goForward;
@@ -121,28 +124,24 @@ class Trap {
     trapFunction(token) {
         oldBoardPlaceNumber = token.boardPlaceNumber;
         if (this.specialFunction == "backtostart") {
-            console.log("go back to start");
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
             token.boardPlaceNumber = 1;
             //gå til token og animer at spillebrikken går over brettet
             token.animateSliding(oldBoardPlaceNumber,1, false);
         }
         if (this.goForward == true) {
-            console.log("jeg skal gå fremover");
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
             token.boardPlaceNumber += this.steps;
             //gå til token og animer at spillebrikken går over brettet
             token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
         } 
         if (this.goForward == false) {
-            console.log("jeg skal gå bakover");
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
             token.boardPlaceNumber -= this.steps;
             //gå til token og animer at spillebrikken går over brettet
             token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber, false);
         }
         if (this.specialFunction == "switch") {
-            console.log("switch plasser");
             for (let z in playerArray) {
                 if (playerArray[z].activeTurn) {
                     oldBoardPlaceNumber = token.boardPlaceNumber;
@@ -154,7 +153,6 @@ class Trap {
             }
         }
         if (this.specialFunction == "rollagain") {
-            console.log("roll again");
             rollDice(token);
         }
         diceObject.activeEventListener = true;
@@ -174,11 +172,18 @@ let diceObject = {
 let player1ImgNr = localStorage.getItem("player1");
 let player2ImgNr = localStorage.getItem("player2");
 
-let player1 = new Player(1,20,20,player1ImgNr,true);
-let player2 = new Player(1,20,20,player2ImgNr,false);
+let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true);
+let player2 = new Player(1,20,20, "tomato", player2ImgNr,false);
 let playerArray = [player1,player2];
 let activePlayer = player1;
 
+let playerInfo = {
+    width:220,
+    height:230,
+    xPos:560,
+    yPos:20,
+    bgColor:"tomato"
+}
 //fresh hjelp fra stackoverflow, min gud
 //bruk en "fisher-yates shuffle" for å shuffle tall mellom 2-29
 //deretter velg en tilfeldig index (minus 5) og velg de neste 5 tallene
@@ -202,11 +207,11 @@ function shuffleArray(array) {
 let trapsPositions = shuffleArray([6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29]);
 
 //lag feller
-let goBackToStart = new Trap("Go \nback to \nstart",trapsPositions[0],undefined,undefined,"backtostart");
-let twoStepsForward = new Trap("Take \n2 steps \nforward",trapsPositions[1],true,2);
-let fiveStepsBack = new Trap("Take \n5 steps \nback",trapsPositions[2],false,5);
-let switchPlaces = new Trap("Swi\ntch \nplaces",trapsPositions[3],undefined,undefined,"switch");
-let rollAgain = new Trap("Ro\nll a\ngain",trapsPositions[4],undefined,undefined,"rollagain");
+let goBackToStart = new Trap(0,0,"Go \nback to \nstart",trapsPositions[0],undefined,undefined,"backtostart");
+let twoStepsForward = new Trap(0,0,"Take \n2 steps \nforward",trapsPositions[1],true,2);
+let fiveStepsBack = new Trap(0,0,"Take \n5 steps \nback",trapsPositions[2],false,5);
+let switchPlaces = new Trap(0,0,"Swi\ntch \nplaces",trapsPositions[3],undefined,undefined,"switch");
+let rollAgain = new Trap(0,0,"Ro\nll a\ngain",trapsPositions[4],undefined,undefined,"rollagain");
 
 let allTraps = [
     goBackToStart,
@@ -215,6 +220,10 @@ let allTraps = [
     switchPlaces,
     rollAgain
 ];
+
+for (let trapIndex in allTraps) {
+    calculatePosition(allTraps[trapIndex],allTraps[trapIndex].boardPlaceNumber);
+}
 
 let messageObject = {
     activeEventlistener: false,
@@ -265,24 +274,51 @@ function calculatePosition(token, boardPlaceNumber) {
 
 function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawTraps();
     //draw players
-    drawObject(player1.xPos,player1.yPos,40,40,"#3480eb");
-    drawObject(player2.xPos,(player2.yPos+50),40,40,"tomato");
+    drawPlayers();
     //draw dice
     drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
+    //draw playerinfo¨
+    drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
 }
 //fjern funksjon og sett opp startGame() funksjon
 update();
 
 //generell draw funksjon
-function drawObject(xPos,yPos,width,height,bgcolor,img) {
+function drawObject(xPos,yPos,width,height,bgColor,img) {
     ctx.beginPath();
-    if (bgcolor !== undefined) {
-        ctx.fillStyle=bgcolor;
+    if (bgColor !== undefined) {
+        ctx.fillStyle=bgColor;
     }
     ctx.rect(xPos,yPos,width,height);
     ctx.fill();
     ctx.closePath();
+}
+
+function drawPlayers() {
+    for (let i in playerArray) {
+        ctx.beginPath();
+        if (playerArray[i].bgColor == "tomato"){
+            ctx.arc((playerArray[i].xPos+20), (playerArray[i].yPos+70), 20, 0*Math.PI, 2*Math.PI);
+        }
+        else {
+            ctx.arc((playerArray[i].xPos+20), (playerArray[i].yPos+20), 20, 0*Math.PI, 2*Math.PI);
+        }
+        ctx.fillStyle = playerArray[i].bgColor;
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+function drawTraps() {
+    for (let i in allTraps) {
+        ctx.beginPath();
+        ctx.rect(allTraps[i].xPos,allTraps[i].yPos,20,20);
+        ctx.fillStyle="purple";
+        ctx.fill();
+        ctx.closePath();
+    }
 }
 
 function mousePosition(event) {
