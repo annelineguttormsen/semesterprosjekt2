@@ -63,12 +63,20 @@ class Player {
                                 allTraps[y].trapFunction(thisObject);
                             }
                             canvasMessage(allTraps[y].infoText);
-                            //allTraps[y].trapFunction(thisObject);
                         },300*i);
                     }
                 }
                 //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
-                setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
+                setTimeout((function(){
+                    canvas.addEventListener("click",canvasEventListener);
+                    //gå gjennom playerarray og bytt om booleans
+                    for (let z in playerArray) {
+                        playerArray[z].activeTurn = !playerArray[z].activeTurn;
+                        if (playerArray[z].activeTurn == true) {
+                            activePlayer = playerArray[z];
+                        }
+                    }
+                }),300*i);
             }
         }
         //funksjon for hvis token skal gå bakover
@@ -92,7 +100,6 @@ class Player {
                                     allTraps[y].trapFunction(thisObject);
                                 }
                                 canvasMessage(allTraps[y].infoText);
-                                //allTraps[y].trapFunction(thisObject);
                             },300*i);
                         }
                     }
@@ -136,8 +143,8 @@ class Trap {
         }
         if (this.specialFunction == "switch") {
             console.log("switch plasser");
-            for (let z = 0;z<playerArray.length;z++) {
-                if (playerArray[z].activeTurn == false) {
+            for (let z in playerArray) {
+                if (playerArray[z].activeTurn) {
                     oldBoardPlaceNumber = token.boardPlaceNumber;
                     token.boardPlaceNumber = playerArray[z].boardPlaceNumber;
                     playerArray[z].boardPlaceNumber = oldBoardPlaceNumber;
@@ -170,8 +177,30 @@ let player2ImgNr = localStorage.getItem("player2");
 let player1 = new Player(1,20,20,player1ImgNr,true);
 let player2 = new Player(1,20,20,player2ImgNr,false);
 let playerArray = [player1,player2];
+let activePlayer = player1;
 
-let trapsPositions = [5,8,15,23,27];
+//fresh hjelp fra stackoverflow, min gud
+//bruk en "fisher-yates shuffle" for å shuffle tall mellom 2-29
+//deretter velg en tilfeldig index (minus 5) og velg de neste 5 tallene
+function shuffleArray(array) {
+    let i = array.length,
+        j = 0,
+        temp;
+    while (i--) {
+        j = Math.floor(Math.random() * (i+1));
+        // swap randomly chosen element with current element
+        temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    let randomIndex = Math.ceil(Math.random()*(array.length-5));
+    array = array.splice(randomIndex,5);
+    console.log(array);
+    return array;
+}
+
+let trapsPositions = shuffleArray([6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29]);
+
 //lag feller
 let goBackToStart = new Trap("Go \nback to \nstart",trapsPositions[0],undefined,undefined,"backtostart");
 let twoStepsForward = new Trap("Take \n2 steps \nforward",trapsPositions[1],true,2);
@@ -198,28 +227,10 @@ let messageObject = {
     height:30
 }
 
-/*let trapPosition = new Array();
-
-for (var i = 0;i<5;i++) {
-    let tilfeldigTall = (Math.ceil(Math.random()*28)+1);
-    for (var i = 0;i<trapPosition.length;i++) {
-        if (tilfeldigTall == trapPosition[i]) {
-            if (tilfeldigTall == 29) {
-                trapPosition.push(28);
-            }
-            else {
-                tilfeldigTall = trapPosition[i]++;
-            }
-        }
-    }
-    trapPosition.push(tilfeldigTall);
-}
-console.log(trapPosition);*/
-
 function rollDice(token) {
     dice = Math.floor(Math.random()*6)+1;
     //DEBUG: fjern når ferdig
-    //dice = 4;
+    //dice = 5;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
     token.boardPlaceNumber += dice;
@@ -255,7 +266,7 @@ function calculatePosition(token, boardPlaceNumber) {
 function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     //draw players
-    drawObject(player1.xPos,player1.yPos,40,40,"#000");
+    drawObject(player1.xPos,player1.yPos,40,40,"#3480eb");
     drawObject(player2.xPos,(player2.yPos+50),40,40,"tomato");
     //draw dice
     drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
@@ -288,14 +299,14 @@ function mousePosition(event) {
     if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
         if (canvasX < (diceObject.xPos + diceObject.width) && canvasY < (diceObject.yPos + diceObject.width)) {
             if (diceObject.activeEventListener) {
-                rollDice(player1);
+                rollDice(activePlayer);
             }
         }
     }
     //SJEKK KNAPP PÅ CANVASMESSAGE
     else if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
         if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
-            if (messageObject.activeEventListener) {
+            if (messageObject.activeEventlistener) {
                 update();
                 //message skal fjernes, så gjør om til false
                 //dice object skal kunne brukes igjen, så sett til true
@@ -313,7 +324,7 @@ function mousePosition(event) {
 }
 
 function canvasMessage(info) {
-    messageObject.activeEventListener = true;
+    messageObject.activeEventlistener = true;
     drawObject(200,125,400,190,"tomato");
     let sentences = info.split("\n");
     let i;
