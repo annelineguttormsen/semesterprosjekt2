@@ -30,13 +30,14 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn) {
+    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
         this.bgColor = bgColor;
         this.imgNr = characterImg[imgNr];
         this.activeTurn = activeTurn;
+        this.name = name;
     }
     animateSliding(oBPN, bPN, goForward) {
         //deklarer en variabel som bestemmer lengen på timeout
@@ -51,7 +52,7 @@ class Player {
                 i++;
             }(oBPN));
             if (oBPN == 30) {
-                setTimeout(function(){console.log("du vant!")},300*i);
+                setTimeout(function(){winGame(thisObject)},300*i);
                 break;
             }
             if (oBPN == bPN) {
@@ -88,7 +89,7 @@ class Player {
                     i++;
                 }(oBPN));
                 if (oBPN == 30) {
-                    setTimeout(function(){console.log("du vant!")},300*i);
+                    setTimeout(function(){winGame(thisObject)},300*i);
                     break;
                 }
                 if (oBPN == bPN) {
@@ -172,8 +173,8 @@ let diceObject = {
 let player1ImgNr = localStorage.getItem("player1");
 let player2ImgNr = localStorage.getItem("player2");
 
-let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true);
-let player2 = new Player(1,20,20, "tomato", player2ImgNr,false);
+let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true,"Player 1");
+let player2 = new Player(1,20,20, "tomato", player2ImgNr,false, "Player 2");
 let playerArray = [player1,player2];
 let activePlayer = player1;
 
@@ -373,4 +374,8 @@ function canvasMessage(info) {
     }
     //tegn knapp
     drawObject(350,170+(30*i),100,30,"green");
+}
+
+function winGame(token) {
+    canvasMessage(token.name + " won!");
 }
