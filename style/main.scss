@@ -5,6 +5,13 @@
 .page {
     background:#f2f2f2;
     font-family:Helvetica, Arial, sans-serif;
+    &__logo {
+        img {
+            height:200px;
+            display:block;
+            margin:0 auto;
+        }
+    }
     &__warning {
         &--info {
             display:none;
