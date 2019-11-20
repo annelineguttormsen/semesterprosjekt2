@@ -164,7 +164,7 @@ class Trap {
 let diceObject = {
     width:220,
     height:230,
-    xPos:560,
+    xPos:580,
     yPos:250,
     activeEventListener:true
 }
@@ -181,7 +181,7 @@ let activePlayer = player1;
 let playerInfo = {
     width:220,
     height:230,
-    xPos:560,
+    xPos:580,
     yPos:20,
     bgColor:"tomato"
 }

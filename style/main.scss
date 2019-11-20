@@ -18,12 +18,16 @@
 }
 .canvas-wrap {
     background:#fff;
+    margin:0 auto;
+    width:800px;
+    height:500px;
 }
 #boardgame {
-    background:#f2f2f2;
-    background:url("../grid.svg")no-repeat;
-    background-position:20px 20px;
-    background-size:540px 450px;
+    width:800px;
+    height:500px;
+    background:url("../canvasbg.png");
+    background-size:100% 100%;
+    border:1px solid black;
     display:block;
     margin:50px auto;
 }
