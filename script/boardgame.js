@@ -232,7 +232,7 @@ for (let trapIndex in allTraps) {
 }
 
 let messageObject = {
-    activeEventlistener: false,
+    activeEventListener: false,
     trapFunction: function() {
         allTraps[0].trapFunction(player1);
     },
@@ -289,7 +289,6 @@ function update() {
     drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
 }
 //fjern funksjon og sett opp startGame() funksjon
-update();
 
 //generell draw funksjon
 function drawObject(xPos,yPos,width,height,bgColor,img) {
@@ -332,37 +331,34 @@ function mousePosition(event) {
     let x = event.clientX;
     let y = event.clientY;
     //regn ut posisjon av museklikk på canvas elementet
-    canvasX = x - canvasInfo.left;
-    canvasY = y - canvasInfo.top;
-    if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
-        if (canvasX < (diceObject.xPos + diceObject.width) && canvasY < (diceObject.yPos + diceObject.width)) {
-            if (diceObject.activeEventListener) {
+    let canvasX = x - canvasInfo.left;
+    let canvasY = y - canvasInfo.top;
+    if (diceObject.activeEventListener) {
+        if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
+            if (canvasY < (diceObject.yPos + diceObject.height)) {
                 rollDice(activePlayer);
             }
         }
-    }
-    //SJEKK KNAPP PÅ CANVASMESSAGE
-    else if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
-        if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
-            if (messageObject.activeEventlistener) {
+    } if (messageObject.activeEventListener) {
+        if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
+            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
                 update();
                 //message skal fjernes, så gjør om til false
                 //dice object skal kunne brukes igjen, så sett til true
-                messageObject.activeEventlistener = false;
+                messageObject.activeEventListener = false;
                 diceObject.activeEventListener = true;
                 messageObject.trapFunction(player1);    
                 canvas.addEventListener("click",canvasEventListener);
             }
         }
-    }
-    else {
+    } else {
         console.log("mousePosition() fant ingenting");
         canvas.addEventListener("click",canvasEventListener);
     }
 }
 
 function canvasMessage(info) {
-    messageObject.activeEventlistener = true;
+    messageObject.activeEventListener = true;
     drawObject(200,125,400,190,"tomato");
     let sentences = info.split("\n");
     let i;
@@ -379,4 +375,8 @@ function canvasMessage(info) {
 
 function winGame(token) {
     canvasMessage(token.name + " won!");
+}
+
+window.onload = function() {
+    update();
 }
