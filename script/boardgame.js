@@ -28,6 +28,11 @@ const characterImg = [
 let victoryAudio = new Audio("./audio/victory.WAV");
 let introAudio = new Audio("./audio/introtoot.WAV");
 
+//ikoner
+const player1Icon = document.querySelector(".player1--img");
+const player2Icon = document.querySelector(".player2--img");
+const trapIcon = document.querySelector(".trap--img");
+
 //klasser
 class Player {
     constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name) {
@@ -301,10 +306,10 @@ function drawPlayers() {
     for (let i in playerArray) {
         ctx.beginPath();
         if (playerArray[i].bgColor == "tomato"){
-            ctx.arc((playerArray[i].xPos+20), (playerArray[i].yPos+70), 20, 0*Math.PI, 2*Math.PI);
+            ctx.drawImage(player2Icon, playerArray[i].xPos, (playerArray[i].yPos+50),40,40);
         }
         else {
-            ctx.arc((playerArray[i].xPos+20), (playerArray[i].yPos+20), 20, 0*Math.PI, 2*Math.PI);
+            ctx.drawImage(player1Icon, playerArray[i].xPos, playerArray[i].yPos,40,40);
         }
         ctx.fillStyle = playerArray[i].bgColor;
         ctx.fill();
@@ -314,11 +319,7 @@ function drawPlayers() {
 
 function drawTraps() {
     for (let i in allTraps) {
-        ctx.beginPath();
-        ctx.rect(allTraps[i].xPos,allTraps[i].yPos,20,20);
-        ctx.fillStyle="purple";
-        ctx.fill();
-        ctx.closePath();
+        ctx.drawImage(trapIcon,(allTraps[i].xPos+55),(allTraps[i].yPos+55),30,30);
     }
 }
 
