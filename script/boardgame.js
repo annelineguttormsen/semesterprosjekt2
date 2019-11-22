@@ -34,6 +34,17 @@ const player2Icon = document.querySelector(".player2--img");
 const trapIcon = document.querySelector(".trap--img");
 const messageBG = document.querySelector(".message--img");
 
+let onepip = document.querySelector(".onepip--img");
+let twopip = document.querySelector(".twopip--img");
+let threepip = document.querySelector(".threepip--img");
+let fourpip = document.querySelector(".fourpip--img");
+let fivepip = document.querySelector(".fivepip--img");
+let sixpip = document.querySelector(".sixpip--img");
+
+let pips = [
+    onepip,twopip,threepip,fourpip,fivepip,sixpip
+];
+
 //klasser
 class Player {
     constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name) {
@@ -292,18 +303,12 @@ function updatePlayerAndDice() {
     drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
     ctx.clearRect(580,0,320,canvas.height);
     if (diceObject.pips != 0) {
-        ctx.beginPath();
-        ctx.font = "18px Karla";
-        ctx.fillStyle = "black";
-        ctx.textAlign = "start";
-        ctx.textBaseline = "hanging";
-        ctx.fillText(("Dice rolled: " + diceObject.pips), 600, 250);
-        ctx.closePath();
+        ctx.drawImage((pips[diceObject.pips-1]),600,320,150,150);
     }
 }
 
 //generell draw funksjon
-function drawObject(xPos,yPos,width,height,bgColor,img) {
+function drawObject(xPos,yPos,width,height,bgColor) {
     ctx.beginPath();
     if (bgColor !== undefined) {
         ctx.fillStyle=bgColor;
