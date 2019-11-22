@@ -32,6 +32,7 @@ let introAudio = new Audio("./audio/introtoot.WAV");
 const player1Icon = document.querySelector(".player1--img");
 const player2Icon = document.querySelector(".player2--img");
 const trapIcon = document.querySelector(".trap--img");
+const messageBG = document.querySelector(".message--img");
 
 //klasser
 class Player {
@@ -171,7 +172,8 @@ let diceObject = {
     height:230,
     xPos:580,
     yPos:250,
-    activeEventListener:true
+    activeEventListener:true,
+    pips:0
 }
 
 //få tak i imgnr fra ls, lag players ut av player klassen
@@ -212,11 +214,11 @@ function shuffleArray(array) {
 let trapsPositions = shuffleArray([6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29]);
 
 //lag feller
-let goBackToStart = new Trap(0,0,"Go \nback to \nstart",trapsPositions[0],undefined,undefined,"backtostart");
-let twoStepsForward = new Trap(0,0,"Take \n2 steps \nforward",trapsPositions[1],true,2);
-let fiveStepsBack = new Trap(0,0,"Take \n5 steps \nback",trapsPositions[2],false,5);
-let switchPlaces = new Trap(0,0,"Swi\ntch \nplaces",trapsPositions[3],undefined,undefined,"switch");
-let rollAgain = new Trap(0,0,"Ro\nll a\ngain",trapsPositions[4],undefined,undefined,"rollagain");
+let goBackToStart = new Trap(0,0,"You encounter a dragon, its firebreath wreaks \nhavoc on your armour. You see no other way... \nGo back to start",trapsPositions[0],undefined,undefined,"backtostart");
+let twoStepsForward = new Trap(0,0,"A witch stops you in your path, you've stepped \ninto her swamp! You're suddenly light on your feet.\nGo 2 steps forward",trapsPositions[1],true,2);
+let fiveStepsBack = new Trap(0,0,"You see a hut and it's full of thieves! You're worried\n they'll notice and you can't spare your gold.\nGo 5 steps back",trapsPositions[2],false,5);
+let switchPlaces = new Trap(0,0,"A magical portal engulfs you and you catch\na glimpse of your opponent for just a second. \nSwitch places with your opponent",trapsPositions[3],undefined,undefined,"switch");
+let rollAgain = new Trap(0,0,"A huge rock falls out of the heavens,\nknocking you out cold. You're a little confused.\nRoll again",trapsPositions[4],undefined,undefined,"rollagain");
 
 let allTraps = [
     goBackToStart,
@@ -237,20 +239,20 @@ let messageObject = {
         allTraps[0].trapFunction(player1);
     },
     xPos:350,
-    yPos:230,
+    yPos:250,
     width:100,
     height:30
 }
 
 function rollDice(token) {
-    dice = Math.floor(Math.random()*6)+1;
-    //DEBUG: fjern når ferdig
-    //dice = 5;
+    dice = Math.ceil(Math.random()*6);
+    diceObject.pips = dice;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
     token.boardPlaceNumber += dice;
     //gå til token og animer at spillebrikken går over brettet
     token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
+    updatePlayerAndDice();
     console.log("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
 }
 
@@ -275,20 +277,30 @@ function calculatePosition(token, boardPlaceNumber) {
             token.xPos = 560-((boardPlaceNumber%6)*90);
         }
     }
-    update();
+    updateBoard();
 }
 
-function update() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function updateBoard() {
+    ctx.clearRect(0,0,580,canvas.height);
     drawTraps();
     //draw players
     drawPlayers();
-    //draw dice
-    drawObject(diceObject.xPos,diceObject.yPos,diceObject.width,diceObject.height,"lightblue");
-    //draw playerinfo¨
-    drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
 }
-//fjern funksjon og sett opp startGame() funksjon
+
+function updatePlayerAndDice() {
+    //draw playerinfo
+    drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
+    ctx.clearRect(580,0,320,canvas.height);
+    if (diceObject.pips != 0) {
+        ctx.beginPath();
+        ctx.font = "18px Karla";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "start";
+        ctx.textBaseline = "hanging";
+        ctx.fillText(("Dice rolled: " + diceObject.pips), 600, 250);
+        ctx.closePath();
+    }
+}
 
 //generell draw funksjon
 function drawObject(xPos,yPos,width,height,bgColor,img) {
@@ -323,8 +335,6 @@ function drawTraps() {
 }
 
 function mousePosition(event) {
-    //fjern eventlistener til players tur er over
-    canvas.removeEventListener("click",canvasEventListener);
     //få tak i informasjon om canvas elementet
     let canvasInfo = canvas.getBoundingClientRect();
     //få deretter tak i informasjon om musepeker på client
@@ -336,13 +346,16 @@ function mousePosition(event) {
     if (diceObject.activeEventListener) {
         if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
             if (canvasY < (diceObject.yPos + diceObject.height)) {
+                canvas.removeEventListener("click",canvasEventListener);
                 rollDice(activePlayer);
             }
         }
-    } if (messageObject.activeEventListener) {
+    }
+    if (messageObject.activeEventListener) {
         if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
-            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.width)) {
-                update();
+            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.height)) {
+                updateBoard();
+                updatePlayerAndDice();
                 //message skal fjernes, så gjør om til false
                 //dice object skal kunne brukes igjen, så sett til true
                 messageObject.activeEventListener = false;
@@ -351,32 +364,35 @@ function mousePosition(event) {
                 canvas.addEventListener("click",canvasEventListener);
             }
         }
-    } else {
-        console.log("mousePosition() fant ingenting");
-        canvas.addEventListener("click",canvasEventListener);
     }
+    console.log("mouseposition er tilkalt");
 }
 
 function canvasMessage(info) {
     messageObject.activeEventListener = true;
-    drawObject(200,125,400,190,"tomato");
+    ctx.drawImage(messageBG,190,125);
     let sentences = info.split("\n");
     let i;
     for (i = 0;i<sentences.length;i++) {
-        ctx.font = "18px Helvetica";
+        ctx.beginPath();
+        ctx.font = "18px Karla";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
         ctx.textBaseline = "hanging";
         ctx.fillText(sentences[i],400,(150+(30*i)));
+        ctx.closePath();
     }
-    //tegn knapp
-    drawObject(350,170+(30*i),100,30,"green");
 }
 
 function winGame(token) {
     canvasMessage(token.name + " won!");
 }
 
-window.onload = function() {
-    update();
+function startGame() {
+    updateBoard();
+    updatePlayerAndDice();
+    document.fonts.load("18px Karla");
+    //sett inn funksjon så loading div fjernes
 }
+
+window.onload = startGame;
