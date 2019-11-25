@@ -91,9 +91,10 @@ class Player {
                     //gå gjennom playerarray og bytt om booleans
                     for (let z in playerArray) {
                         playerArray[z].activeTurn = !playerArray[z].activeTurn;
-                        if (playerArray[z].activeTurn == true) {
+                        if (playerArray[z].activeTurn) {
                             activePlayer = playerArray[z];
                         }
+                        console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
                     }
                 }),300*i);
             }
@@ -122,7 +123,16 @@ class Player {
                             },300*i);
                         }
                     }
-                    setTimeout(function(){canvas.addEventListener("click",canvasEventListener)},300*i);
+                    setTimeout(function(){
+                        canvas.addEventListener("click",canvasEventListener);
+                        for (let z in playerArray) {
+                            playerArray[z].activeTurn = !playerArray[z].activeTurn;
+                            if (playerArray[z].activeTurn) {
+                                activePlayer = playerArray[z];
+                            }
+                            console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
+                        }
+                    },300*i);
                 }
             }
         }
@@ -151,7 +161,7 @@ class Trap {
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
             token.boardPlaceNumber += this.steps;
             //gå til token og animer at spillebrikken går over brettet
-            token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
+            token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber,undefined);
         } 
         if (this.goForward == false) {
             //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
@@ -167,6 +177,14 @@ class Trap {
                     playerArray[z].boardPlaceNumber = oldBoardPlaceNumber;
                     calculatePosition(token, token.boardPlaceNumber);
                     calculatePosition(playerArray[z],playerArray[z].boardPlaceNumber);
+                }
+            }
+        }
+        if (!token.activeTurn) {
+            for (let z in playerArray) {
+                playerArray[z].activeTurn = !playerArray[z].activeTurn;
+                if (playerArray[z].activeTurn) {
+                    activePlayer = playerArray[z];
                 }
             }
         }
@@ -257,6 +275,7 @@ let messageObject = {
 
 function rollDice(token) {
     dice = Math.ceil(Math.random()*6);
+    dice = 2;
     diceObject.pips = dice;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
@@ -365,6 +384,7 @@ function mousePosition(event) {
                 //dice object skal kunne brukes igjen, så sett til true
                 messageObject.activeEventListener = false;
                 diceObject.activeEventListener = true;
+                //DEBUG
                 messageObject.trapFunction(player1);    
                 canvas.addEventListener("click",canvasEventListener);
             }

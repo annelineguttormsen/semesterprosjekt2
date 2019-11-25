@@ -1,3 +1,12 @@
+[class^=col] {
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 800px) {
+  .page__warning {
+    display: block;
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -13,13 +22,20 @@
   display: block;
   margin: 0 auto;
 }
-.page__warning--info {
+.page__warning {
   display: none;
-  background: lightblue;
+  background: #e23d20;
   position: fixed;
   top: 20px;
   padding: 20px;
-  border-radius: 30px;
+  margin: 10px;
+  text-align: center;
+}
+.page__warning img, .page__warning p {
+  display: inline-block;
+}
+.page__warning img {
+  height: 50px;
 }
 
 .icons {
@@ -71,6 +87,16 @@
 }
 .btn--start:disabled {
   background: #afafaf;
+}
+
+[class^=col] {
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 800px) {
+  .page__warning {
+    display: block;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
