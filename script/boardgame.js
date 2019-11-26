@@ -34,12 +34,14 @@ const player2Icon = document.querySelector(".player2--img");
 const trapIcon = document.querySelector(".trap--img");
 const messageBG = document.querySelector(".message--img");
 
-let onepip = document.querySelector(".onepip--img");
-let twopip = document.querySelector(".twopip--img");
-let threepip = document.querySelector(".threepip--img");
-let fourpip = document.querySelector(".fourpip--img");
-let fivepip = document.querySelector(".fivepip--img");
-let sixpip = document.querySelector(".sixpip--img");
+const onepip = document.querySelector(".onepip--img");
+const twopip = document.querySelector(".twopip--img");
+const threepip = document.querySelector(".threepip--img");
+const fourpip = document.querySelector(".fourpip--img");
+const fivepip = document.querySelector(".fivepip--img");
+const sixpip = document.querySelector(".sixpip--img");
+
+const pageLoad = document.querySelector(".page__load");
 
 let pips = [
     onepip,twopip,threepip,fourpip,fivepip,sixpip
@@ -57,48 +59,11 @@ class Player {
         this.name = name;
     }
     animateSliding(oBPN, bPN, goForward) {
+        canvas.removeEventListener("click",canvasEventListener);
         //deklarer en variabel som bestemmer lengen på timeout
         let i = 0;
         //lag closure til this objektet for loopen
         let thisObject = this;
-        for (oBPN;oBPN<=bPN;oBPN++) {
-            //for hver loop sett en timeout som hver er
-            //300 millisekunder lengre enn forrige
-            (function(oBPN) {
-                setTimeout(function(){calculatePosition(thisObject,oBPN)},300*i);
-                i++;
-            }(oBPN));
-            if (oBPN == 30) {
-                setTimeout(function(){winGame(thisObject)},300*i);
-                break;
-            }
-            if (oBPN == bPN) {
-                //sjekk om player har havnet på en felle
-                for (let y = 0;y<allTraps.length;y++) {
-                    if (bPN == allTraps[y].boardPlaceNumber) {
-                        setTimeout(function(){
-                            diceObject.activeEventListener = false;
-                            messageObject.trapFunction = function() {
-                                allTraps[y].trapFunction(thisObject);
-                            }
-                            canvasMessage(allTraps[y].infoText);
-                        },300*i);
-                    }
-                }
-                //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
-                setTimeout((function(){
-                    canvas.addEventListener("click",canvasEventListener);
-                    //gå gjennom playerarray og bytt om booleans
-                    for (let z in playerArray) {
-                        playerArray[z].activeTurn = !playerArray[z].activeTurn;
-                        if (playerArray[z].activeTurn) {
-                            activePlayer = playerArray[z];
-                        }
-                        console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
-                    }
-                }),300*i);
-            }
-        }
         //funksjon for hvis token skal gå bakover
         if (goForward == false) {
             for (oBPN;oBPN>=bPN;oBPN--) {
@@ -106,8 +71,34 @@ class Player {
                     setTimeout(function(){calculatePosition(thisObject,oBPN)},300*i);
                     i++;
                 }(oBPN));
+                if (oBPN == bPN) {
+                    setTimeout(function(){
+                        canvas.addEventListener("click",canvasEventListener);
+                        for (let z in playerArray) {
+                            playerArray[z].activeTurn = !playerArray[z].activeTurn;
+                            if (playerArray[z].activeTurn) {
+                                activePlayer = playerArray[z];
+                            }
+                            console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
+                        }
+                    },300*i);
+                }
+            }
+        } else {
+            for (oBPN;oBPN<=bPN;oBPN++) {
+                //for hver loop sett en timeout som hver er
+                //300 millisekunder lengre enn forrige
+                (function(oBPN) {
+                    setTimeout(function(){calculatePosition(thisObject,oBPN)},300*i);
+                    i++;
+                }(oBPN));
                 if (oBPN == 30) {
-                    setTimeout(function(){winGame(thisObject)},300*i);
+                    console.log("noen vant");
+                    setTimeout(function(){
+                        canvas.addEventListener("click",canvasEventListener);
+                        winGame(thisObject);
+                        console.log("legg til canvas eventlistener");
+                    },300*i);
                     break;
                 }
                 if (oBPN == bPN) {
@@ -123,8 +114,10 @@ class Player {
                             },300*i);
                         }
                     }
-                    setTimeout(function(){
+                    //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
+                    setTimeout((function(){
                         canvas.addEventListener("click",canvasEventListener);
+                        //gå gjennom playerarray og bytt om booleans
                         for (let z in playerArray) {
                             playerArray[z].activeTurn = !playerArray[z].activeTurn;
                             if (playerArray[z].activeTurn) {
@@ -132,7 +125,7 @@ class Player {
                             }
                             console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
                         }
-                    },300*i);
+                    }),300*i);
                 }
             }
         }
@@ -181,6 +174,7 @@ class Trap {
             }
         }
         if (!token.activeTurn) {
+            console.log(token.name + " har ikke activeTurn");
             for (let z in playerArray) {
                 playerArray[z].activeTurn = !playerArray[z].activeTurn;
                 if (playerArray[z].activeTurn) {
@@ -204,6 +198,8 @@ let diceObject = {
     activeEventListener:true,
     pips:0
 }
+
+let winActiveEventListener = false;
 
 //få tak i imgnr fra ls, lag players ut av player klassen
 let player1ImgNr = localStorage.getItem("player1");
@@ -275,7 +271,7 @@ let messageObject = {
 
 function rollDice(token) {
     dice = Math.ceil(Math.random()*6);
-    dice = 2;
+    //dice = 2;
     diceObject.pips = dice;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
@@ -319,22 +315,10 @@ function updateBoard() {
 
 function updatePlayerAndDice() {
     //draw playerinfo
-    drawObject(playerInfo.xPos,playerInfo.yPos,playerInfo.width,playerInfo.height,playerInfo.bgColor);
     ctx.clearRect(580,0,320,canvas.height);
     if (diceObject.pips != 0) {
         ctx.drawImage((pips[diceObject.pips-1]),600,320,150,150);
     }
-}
-
-//generell draw funksjon
-function drawObject(xPos,yPos,width,height,bgColor) {
-    ctx.beginPath();
-    if (bgColor !== undefined) {
-        ctx.fillStyle=bgColor;
-    }
-    ctx.rect(xPos,yPos,width,height);
-    ctx.fill();
-    ctx.closePath();
 }
 
 function drawPlayers() {
@@ -370,7 +354,6 @@ function mousePosition(event) {
     if (diceObject.activeEventListener) {
         if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
             if (canvasY < (diceObject.yPos + diceObject.height)) {
-                canvas.removeEventListener("click",canvasEventListener);
                 rollDice(activePlayer);
             }
         }
@@ -385,8 +368,15 @@ function mousePosition(event) {
                 messageObject.activeEventListener = false;
                 diceObject.activeEventListener = true;
                 //DEBUG
-                messageObject.trapFunction(player1);    
                 canvas.addEventListener("click",canvasEventListener);
+                messageObject.trapFunction(player1);    
+            }
+        }
+    }
+    if (winActiveEventListener) {
+        if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
+            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.height)) {
+                window.location = "winnerpage.html";
             }
         }
     }
@@ -410,14 +400,26 @@ function canvasMessage(info) {
 }
 
 function winGame(token) {
-    canvasMessage(token.name + " won!");
+    diceObject.activeEventListener = false;
+    winActiveEventListener = true;
+    localStorage.setItem("winner", token.name);
+    ctx.drawImage(messageBG,190,125);
+    ctx.beginPath();
+    ctx.font = "18px Karla";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "hanging";
+    ctx.fillText((token.name + " won!"),400,150);
+    ctx.fillText("You've bested your opponent in a game of luck",400,180);
+    ctx.fillText("Go on and reap your reward!",400,210);
+    ctx.closePath();
 }
 
 function startGame() {
     updateBoard();
     updatePlayerAndDice();
     document.fonts.load("18px Karla");
-    //sett inn funksjon så loading div fjernes
+    pageLoad.style.display = "none";
 }
 
 window.onload = startGame;

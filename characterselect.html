@@ -9,9 +9,19 @@
     <script src="script/characterselect.js" defer></script>
 </head>
 <body class="page">
-    <div class="page__warning--info">Noe har skjedd!</div>
-    <div onclick="chooseCharacter(0)" class="card"></div>
-    <button onclick="resetCharacters()" class="btn btn--reset">Reset Characters</button>
-    <button onclick="setCharacterInLS()" class="btn btn--start">Start Game</button>
+    <div class="page__logo">
+        <img src="media/got-title.svg">
+     </div>
+    <div class="page__warning page__warning--info">Noe har skjedd!</div>
+    <div class="page__wrap">
+        <div onclick="chooseCharacter(0)" class="col-4 card"><img src="media/housebaratheon.png"><p>Tekst</p>
+        </div><div onclick="chooseCharacter(1)" class="col-4 card"><img src="media/houselannister.png">
+        </div><div onclick="chooseCharacter(2)" class="col-4 card"><img src="media/housestark.png">
+        </div><div onclick="chooseCharacter(3)" class="col-4 card"><img src="media/housetyrell.png">
+        </div><div onclick="chooseCharacter(4)" class="col-4 card"><img src="media/housetargaryen.png">
+        </div><div onclick="chooseCharacter(5)" class="col-4 card"><img src="media/housetully.png">
+        </div><button onclick="resetCharacters()" class="btn btn--reset">Reset Characters</button>
+        <button onclick="setCharacterInLS()" class="btn btn--start">Start Game</button>
+    </div>
 </body>
 </html>

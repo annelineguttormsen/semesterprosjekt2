@@ -2,6 +2,46 @@
   box-sizing: border-box;
 }
 
+.col-12 {
+  width: 100%;
+}
+
+.col-10 {
+  width: 83.33%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-8 {
+  width: 66.66%;
+}
+
+.col-7 {
+  width: 58.3;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-5 {
+  width: 41.5%;
+}
+
+.col-4 {
+  width: 33.33%;
+}
+
+.col-3 {
+  width: 24.99%;
+}
+
+.col-2 {
+  width: 16.66%;
+}
+
 @media only screen and (max-width: 800px) {
   .page__warning {
     display: block;
@@ -16,6 +56,11 @@
 .page {
   background: #f2f2f2;
   font-family: Helvetica, Arial, sans-serif;
+}
+.page__wrap {
+  margin: 0 auto;
+  display: block;
+  width: 1080px;
 }
 .page__logo img {
   height: 200px;
@@ -37,7 +82,35 @@
 .page__warning img {
   height: 50px;
 }
+.page__load {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f2f2f2;
+}
+.page__load img {
+  height: 100px;
+  display: block;
+  position: fixed;
+  top: 40%;
+  bottom: 40%;
+  left: 40%;
+  right: 40%;
+  margin: 0 auto;
+  animation: spin 1.5s ease-in-out infinite;
+}
 
+@keyframes spin {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
 .icons {
   display: none;
 }
@@ -52,7 +125,7 @@
 #boardgame {
   width: 800px;
   height: 500px;
-  background: url("../canvasbg.png");
+  background: url("../media/canvasbg.png");
   background-size: 100% 100%;
   border: 1px solid black;
   display: block;
@@ -60,9 +133,9 @@
 }
 
 .card {
-  width: 200px;
+  display: inline-block;
   height: 500px;
-  background: tomato;
+  vertical-align: top;
 }
 
 .btn {
@@ -91,6 +164,46 @@
 
 [class^=col] {
   box-sizing: border-box;
+}
+
+.col-12 {
+  width: 100%;
+}
+
+.col-10 {
+  width: 83.33%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-8 {
+  width: 66.66%;
+}
+
+.col-7 {
+  width: 58.3;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-5 {
+  width: 41.5%;
+}
+
+.col-4 {
+  width: 33.33%;
+}
+
+.col-3 {
+  width: 24.99%;
+}
+
+.col-2 {
+  width: 16.66%;
 }
 
 @media only screen and (max-width: 800px) {
