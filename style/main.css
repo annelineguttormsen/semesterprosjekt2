@@ -60,7 +60,7 @@
 .page__wrap {
   margin: 0 auto;
   display: block;
-  width: 1080px;
+  width: 1280px;
 }
 .page__logo img {
   height: 200px;
@@ -134,7 +134,6 @@
 
 .card {
   display: inline-block;
-  height: 500px;
   vertical-align: top;
 }
 
