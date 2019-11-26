@@ -1,4 +1,5 @@
-let startGameButton = document.querySelector(".btn--start");
+const startGameButton = document.querySelector(".btn--start");
+const pageWarning = document.querySelector(".page__warning");
 startGameButton.disabled = true;
 
 let chosenCharacter1;
@@ -8,19 +9,24 @@ let player1Active = true;
 let player2Active = false;
 
 function chooseCharacter(id) {
-    if (player1Active == true) {
+    if (player1Active) {
         chosenCharacter1 = id;
         player1Active = false;
         player2Active = true;
         console.log("player1 satt");
     } 
-    else if(player2Active == true) {
+    else if(player2Active) {
+        if(id == chosenCharacter1) {
+            console.log("ikke lov");
+            pageWarning.style.display = "block";
+            return;
+        }
         chosenCharacter2 = id;
         player2Active = false;
         console.log("player2 satt");
         startGameButton.disabled = false;
+        pageWarning.style.display = "none";
     }
-    console.log(id);
 }
 
 function resetCharacters() {

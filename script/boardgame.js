@@ -12,16 +12,12 @@ canvas.addEventListener("click",canvasEventListener);
 let dice, oldBoardPlaceNumber;
 
 const characterImg = [
-    "Eddard Stark",
-    "Daenerysyresy",
-    "Jon Snow",
-    "Khal Drogo",
-    "Cersei Lannister",
-    "Arya Stark",
-    "Tyrion Lannister",
-    "Jaime Lannister",
-    "Joffrey Baratheon",
-    "Tormund Giantsbane"
+    "media/housebaratheon.png",
+    "media/houselannister.png",
+    "media/housestark.png",
+    "media/housetyrell.png",
+    "media/housetargaryen.png",
+    "media/housetully.png",
 ];
 
 //audio
