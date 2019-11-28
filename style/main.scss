@@ -1,4 +1,4 @@
-@import "partials/media";
+@import "partials/variables";
 
 @font-face {
     font-family:"GoT";
@@ -12,17 +12,28 @@
 h1,h2,h3 {
     font-family:"GoT";
     padding:20px 0px;
+    color:$text-color;
 }
 p {
     padding:10px 0px;
+    color:$text-color;
 }
 .page {
     background:#ffffff;
-    font-family:Helvetica, Arial, sans-serif;
     &__wrap {
         margin:0 auto;
         padding:0px 20px;
         display:block;
+    }
+    &__message {
+        background:white;
+        position:fixed;
+        border:1px solid $text-color;
+        padding:20px;
+        top:30%;
+        bottom:30%;
+        right:30%;
+        left:30%;
     }
     &__logo {
         //fjern
@@ -41,15 +52,17 @@ p {
         display:none;
         background:rgb(226, 61, 32);
         position:fixed;
-        top:20px;
+        top:50px;
         padding:20px;
         margin:10px;
         text-align:center;
         img, p {
             display:inline-block;
+            vertical-align:top;
         }
         img {
             height:50px;
+            width:50px;
         }
     }
     &__load {
@@ -150,3 +163,4 @@ p {
 }
 
 @import "partials/media";
+@import "partials/col";
