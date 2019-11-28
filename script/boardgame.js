@@ -12,12 +12,12 @@ canvas.addEventListener("click",canvasEventListener);
 let dice, oldBoardPlaceNumber;
 
 const characterImg = [
-    "media/housebaratheon.png",
-    "media/houselannister.png",
-    "media/housestark.png",
-    "media/housetyrell.png",
-    "media/housetargaryen.png",
-    "media/housetully.png",
+    document.querySelector(".housebaratheon"),
+    document.querySelector(".houselannister"),
+    document.querySelector(".housestark"),
+    document.querySelector(".housetyrell"),
+    document.querySelector(".housetargaryen"),
+    document.querySelector(".housetully")
 ];
 
 //audio
@@ -106,6 +106,7 @@ class Player {
                                 messageObject.trapFunction = function() {
                                     allTraps[y].trapFunction(thisObject);
                                 }
+                                updateBanner();
                                 canvasMessage(allTraps[y].infoText);
                             },300*i);
                         }
@@ -206,13 +207,6 @@ let player2 = new Player(1,20,20, "tomato", player2ImgNr,false, "Player 2");
 let playerArray = [player1,player2];
 let activePlayer = player1;
 
-let playerInfo = {
-    width:220,
-    height:230,
-    xPos:580,
-    yPos:20,
-    bgColor:"tomato"
-}
 //fresh hjelp fra stackoverflow, min gud
 //bruk en "fisher-yates shuffle" for å shuffle tall mellom 2-29
 //deretter velg en tilfeldig index (minus 5) og velg de neste 5 tallene
@@ -309,9 +303,14 @@ function updateBoard() {
     drawPlayers();
 }
 
+function updateBanner() {
+    ctx.clearRect(580,0,320,200);
+    ctx.drawImage(activePlayer.imgNr,600,100,150,150);
+}
+
 function updatePlayerAndDice() {
     //draw playerinfo
-    ctx.clearRect(580,0,320,canvas.height);
+    ctx.clearRect(580,580,320,canvas.height);
     if (diceObject.pips != 0) {
         ctx.drawImage((pips[diceObject.pips-1]),600,320,150,150);
     }
@@ -358,6 +357,7 @@ function mousePosition(event) {
         if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
             if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.height)) {
                 updateBoard();
+                updateBanner();
                 updatePlayerAndDice();
                 //message skal fjernes, så gjør om til false
                 //dice object skal kunne brukes igjen, så sett til true
@@ -413,6 +413,7 @@ function winGame(token) {
 
 function startGame() {
     updateBoard();
+    updateBanner();
     updatePlayerAndDice();
     document.fonts.load("18px Karla");
     pageLoad.style.display = "none";

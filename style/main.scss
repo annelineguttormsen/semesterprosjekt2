@@ -1,23 +1,40 @@
 @import "partials/media";
 
+@font-face {
+    font-family:"GoT";
+    src:url("C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/media/gotfont.ttf") format("truetype");
+}
 * {
     margin:0;
     padding:0;
     font-family:Karla;
 }
+h1,h2,h3 {
+    font-family:"GoT";
+    padding:20px 0px;
+}
+p {
+    padding:10px 0px;
+}
 .page {
-    background:#f2f2f2;
+    background:#ffffff;
     font-family:Helvetica, Arial, sans-serif;
     &__wrap {
         margin:0 auto;
+        padding:0px 20px;
         display:block;
-        width:1280px;
     }
     &__logo {
+        //fjern
+        padding:50px 0px 20px 0px;
         img {
             height:200px;
             display:block;
             margin:0 auto;
+        }
+        //fjern
+        h1 {
+            text-align:center;
         }
     }
     &__warning {
@@ -55,6 +72,21 @@
             animation:spin 1.5s ease-in-out infinite;
         }
     }
+    &__hero {
+        height:800px;
+        .inline-div {
+            padding-top:100px;
+            display:inline-block;
+            vertical-align:top;
+        }
+        .content-text {
+            font-size:20px;
+        }
+    }
+    &__line {
+        width:75%;
+        margin:0 auto;
+    }
 }
 @keyframes spin {
     from {transform:rotate(359deg)}
@@ -78,9 +110,20 @@
     display:block;
     margin:50px auto;
 }
-.card {
-    display:inline-block;
-    vertical-align:top;
+.character-select {
+    &__titles {
+        text-align:center;
+        font-size:22px;
+    }
+    .card {
+        display:inline-block;
+        vertical-align:top;
+        padding:10px;
+        cursor:pointer;
+        img {
+            width:100%;
+        }
+    }
 }
 .btn {
     padding:10px 20px;

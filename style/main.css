@@ -46,6 +46,144 @@
   .page__warning {
     display: block;
   }
+  .page__warning--info {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .col-md-12 {
+    width: 100%;
+  }
+
+  .col-md-10 {
+    width: 83.33%;
+  }
+
+  .col-md-9 {
+    width: 75%;
+  }
+
+  .col-md-8 {
+    width: 66.66%;
+  }
+
+  .col-md-7 {
+    width: 58.3;
+  }
+
+  .col-md-6 {
+    width: 50%;
+  }
+
+  .col-md-5 {
+    width: 41.5%;
+  }
+
+  .col-md-4 {
+    width: 33.33%;
+  }
+
+  .col-md-3 {
+    width: 24.99%;
+  }
+
+  .col-md-2 {
+    width: 16.66%;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .col-sm-12 {
+    width: 100%;
+  }
+
+  .col-sm-10 {
+    width: 83.33%;
+  }
+
+  .col-sm-9 {
+    width: 75%;
+  }
+
+  .col-sm-8 {
+    width: 66.66%;
+  }
+
+  .col-sm-7 {
+    width: 58.3;
+  }
+
+  .col-sm-6 {
+    width: 50%;
+  }
+
+  .col-sm-5 {
+    width: 41.5%;
+  }
+
+  .col-sm-4 {
+    width: 33.33%;
+  }
+
+  .col-sm-3 {
+    width: 24.99%;
+  }
+
+  .col-sm-2 {
+    width: 16.66%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .col-xs-12 {
+    width: 100%;
+  }
+
+  .col-xs-10 {
+    width: 83.33%;
+  }
+
+  .col-xs-9 {
+    width: 75%;
+  }
+
+  .col-xs-8 {
+    width: 66.66%;
+  }
+
+  .col-xs-7 {
+    width: 58.3;
+  }
+
+  .col-xs-6 {
+    width: 50%;
+  }
+
+  .col-xs-5 {
+    width: 41.5%;
+  }
+
+  .col-xs-4 {
+    width: 33.33%;
+  }
+
+  .col-xs-3 {
+    width: 24.99%;
+  }
+
+  .col-xs-2 {
+    width: 16.66%;
+  }
+
+  .page__wrap {
+    padding: 0px 10px;
+  }
+
+  .character-select .card {
+    padding: 0;
+  }
+}
+@font-face {
+  font-family: "GoT";
+  src: url("C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/media/gotfont.ttf") format("truetype");
 }
 * {
   margin: 0;
@@ -53,19 +191,34 @@
   font-family: Karla;
 }
 
+h1, h2, h3 {
+  font-family: "GoT";
+  padding: 20px 0px;
+}
+
+p {
+  padding: 10px 0px;
+}
+
 .page {
-  background: #f2f2f2;
+  background: #ffffff;
   font-family: Helvetica, Arial, sans-serif;
 }
 .page__wrap {
   margin: 0 auto;
+  padding: 0px 20px;
   display: block;
-  width: 1280px;
+}
+.page__logo {
+  padding: 50px 0px 20px 0px;
 }
 .page__logo img {
   height: 200px;
   display: block;
   margin: 0 auto;
+}
+.page__logo h1 {
+  text-align: center;
 }
 .page__warning {
   display: none;
@@ -102,6 +255,21 @@
   margin: 0 auto;
   animation: spin 1.5s ease-in-out infinite;
 }
+.page__hero {
+  height: 800px;
+}
+.page__hero .inline-div {
+  padding-top: 100px;
+  display: inline-block;
+  vertical-align: top;
+}
+.page__hero .content-text {
+  font-size: 20px;
+}
+.page__line {
+  width: 75%;
+  margin: 0 auto;
+}
 
 @keyframes spin {
   from {
@@ -132,9 +300,18 @@
   margin: 50px auto;
 }
 
-.card {
+.character-select__titles {
+  text-align: center;
+  font-size: 22px;
+}
+.character-select .card {
   display: inline-block;
   vertical-align: top;
+  padding: 10px;
+  cursor: pointer;
+}
+.character-select .card img {
+  width: 100%;
 }
 
 .btn {
@@ -208,6 +385,140 @@
 @media only screen and (max-width: 800px) {
   .page__warning {
     display: block;
+  }
+  .page__warning--info {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .col-md-12 {
+    width: 100%;
+  }
+
+  .col-md-10 {
+    width: 83.33%;
+  }
+
+  .col-md-9 {
+    width: 75%;
+  }
+
+  .col-md-8 {
+    width: 66.66%;
+  }
+
+  .col-md-7 {
+    width: 58.3;
+  }
+
+  .col-md-6 {
+    width: 50%;
+  }
+
+  .col-md-5 {
+    width: 41.5%;
+  }
+
+  .col-md-4 {
+    width: 33.33%;
+  }
+
+  .col-md-3 {
+    width: 24.99%;
+  }
+
+  .col-md-2 {
+    width: 16.66%;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .col-sm-12 {
+    width: 100%;
+  }
+
+  .col-sm-10 {
+    width: 83.33%;
+  }
+
+  .col-sm-9 {
+    width: 75%;
+  }
+
+  .col-sm-8 {
+    width: 66.66%;
+  }
+
+  .col-sm-7 {
+    width: 58.3;
+  }
+
+  .col-sm-6 {
+    width: 50%;
+  }
+
+  .col-sm-5 {
+    width: 41.5%;
+  }
+
+  .col-sm-4 {
+    width: 33.33%;
+  }
+
+  .col-sm-3 {
+    width: 24.99%;
+  }
+
+  .col-sm-2 {
+    width: 16.66%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .col-xs-12 {
+    width: 100%;
+  }
+
+  .col-xs-10 {
+    width: 83.33%;
+  }
+
+  .col-xs-9 {
+    width: 75%;
+  }
+
+  .col-xs-8 {
+    width: 66.66%;
+  }
+
+  .col-xs-7 {
+    width: 58.3;
+  }
+
+  .col-xs-6 {
+    width: 50%;
+  }
+
+  .col-xs-5 {
+    width: 41.5%;
+  }
+
+  .col-xs-4 {
+    width: 33.33%;
+  }
+
+  .col-xs-3 {
+    width: 24.99%;
+  }
+
+  .col-xs-2 {
+    width: 16.66%;
+  }
+
+  .page__wrap {
+    padding: 0px 10px;
+  }
+
+  .character-select .card {
+    padding: 0;
   }
 }
 

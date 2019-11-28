@@ -38,5 +38,5 @@ function setCharacterInLS() {
     localStorage.setItem("player1",chosenCharacter1);
     localStorage.setItem("player2",chosenCharacter2);
     console.log(localStorage.getItem("player2"));
-    window.location.replace("file:///C:/Users/Admin/Documents/GitHub/semesterprosjekt2/index.html");
+    window.location = "file:///C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/index.html";
 }
