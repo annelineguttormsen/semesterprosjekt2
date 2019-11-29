@@ -13,6 +13,7 @@ h1,h2,h3 {
     font-family:"GoT";
     padding:20px 0px;
     color:$text-color;
+    font-weight:normal;
 }
 p {
     padding:10px 0px;
@@ -30,10 +31,9 @@ p {
         position:fixed;
         border:1px solid $text-color;
         padding:20px;
-        top:30%;
-        bottom:30%;
-        right:30%;
-        left:30%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        display:none;
     }
     &__logo {
         //fjern
@@ -131,21 +131,23 @@ p {
     .card {
         display:inline-block;
         vertical-align:top;
-        padding:10px;
-        cursor:pointer;
+        position:relative;
         img {
-            width:100%;
+            width:90%;
+            margin:0 auto;
+            display:block;
         }
     }
 }
 .btn {
     padding:10px 20px;
-    margin:10px 0px;
     outline:none;
     border:none;
     color:white;
+    font-size:18px;
     font-weight:700;
     background:#4b4b4b;
+    cursor:pointer;
     a {
         display:block;
         text-decoration:none;
@@ -160,6 +162,40 @@ p {
             background:rgb(175, 175, 175);
         }
     }
+}
+.hover-menu {
+    box-sizing:border-box;
+    position:absolute;
+    height:100%;
+    width:100%;
+    opacity:0;
+    transition:.2s linear;
+    background:rgba(255,255,255,0.5);
+    padding-top:100px;
+    &:hover {
+        opacity:1;
+    }
+    &__btn {
+        display:block;
+        margin:20px auto;
+    }
+}
+.player-flair {
+    position:absolute;
+    height:100%;
+    width:100%;
+    background:red;
+}
+.start-game {
+    margin:20px 0px;
+    &__btn {
+        float:right;
+    }
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
 @import "partials/media";

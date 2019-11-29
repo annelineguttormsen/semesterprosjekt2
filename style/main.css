@@ -12,6 +12,7 @@ h1, h2, h3 {
   font-family: "GoT";
   padding: 20px 0px;
   color: #333333;
+  font-weight: normal;
 }
 
 p {
@@ -32,10 +33,9 @@ p {
   position: fixed;
   border: 1px solid #333333;
   padding: 20px;
-  top: 30%;
-  bottom: 30%;
-  right: 30%;
-  left: 30%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: none;
 }
 .page__logo {
   padding: 50px 0px 20px 0px;
@@ -137,21 +137,23 @@ p {
 .character-select .card {
   display: inline-block;
   vertical-align: top;
-  padding: 10px;
-  cursor: pointer;
+  position: relative;
 }
 .character-select .card img {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
+  display: block;
 }
 
 .btn {
   padding: 10px 20px;
-  margin: 10px 0px;
   outline: none;
   border: none;
   color: white;
+  font-size: 18px;
   font-weight: 700;
   background: #4b4b4b;
+  cursor: pointer;
 }
 .btn a {
   display: block;
@@ -166,6 +168,44 @@ p {
 }
 .btn--start:disabled {
   background: #afafaf;
+}
+
+.hover-menu {
+  box-sizing: border-box;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.2s linear;
+  background: rgba(255, 255, 255, 0.5);
+  padding-top: 100px;
+}
+.hover-menu:hover {
+  opacity: 1;
+}
+.hover-menu__btn {
+  display: block;
+  margin: 20px auto;
+}
+
+.player-flair {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: red;
+}
+
+.start-game {
+  margin: 20px 0px;
+}
+.start-game__btn {
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 @media only screen and (max-width: 800px) {
