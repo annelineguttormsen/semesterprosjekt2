@@ -38,6 +38,7 @@ const fivepip = document.querySelector(".fivepip--img");
 const sixpip = document.querySelector(".sixpip--img");
 
 const pageLoad = document.querySelector(".page__load");
+const pageWarningCharacter = document.querySelector(".page__warning--character");
 
 let pips = [
     onepip,twopip,threepip,fourpip,fivepip,sixpip
@@ -412,11 +413,17 @@ function winGame(token) {
 }
 
 function startGame() {
+    if (localStorage.getItem("player1") == undefined) {
+        pageWarningCharacter.style.display = "block";
+        pageWarningCharacter.style.zIndex = 3;
+        return;
+    }
     updateBoard();
     updateBanner();
     updatePlayerAndDice();
     document.fonts.load("18px Karla");
     pageLoad.style.display = "none";
+    
 }
 
 window.onload = startGame;

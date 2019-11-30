@@ -29,11 +29,21 @@ p {
     &__message {
         background:white;
         position:fixed;
+        z-index:3;
         border:1px solid $text-color;
         padding:20px;
+        padding-bottom:70px;
         left: 50%;
         transform: translate(-50%, 0);
         display:none;
+        h1 {
+            text-align:center;
+        }
+        .btn {
+            position:absolute;
+            bottom:20px;
+            right:20px;
+        }
     }
     &__logo {
         //fjern
@@ -105,6 +115,33 @@ p {
     from {transform:rotate(359deg)}
     to {transform:rotate(0deg)}
 }
+.btn {
+    padding:10px 20px;
+    outline:none;
+    border:none;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    background:#4b4b4b;
+    cursor:pointer;
+    a {
+        display:block;
+        text-decoration:none;
+        color:white;
+    }
+    &--red {
+        background:$red;
+    }
+    &--green {
+        background:$green;
+        &:disabled {
+            background:rgb(175, 175, 175);
+        }
+    }
+    &--blue {
+        background:$blue;
+    }
+}
 .icons {
     display:none;
 }
@@ -139,30 +176,6 @@ p {
         }
     }
 }
-.btn {
-    padding:10px 20px;
-    outline:none;
-    border:none;
-    color:white;
-    font-size:18px;
-    font-weight:700;
-    background:#4b4b4b;
-    cursor:pointer;
-    a {
-        display:block;
-        text-decoration:none;
-        color:white;
-    }
-    &--reset {
-        background:red;
-    }
-    &--start {
-        background:lightseagreen;
-        &:disabled {
-            background:rgb(175, 175, 175);
-        }
-    }
-}
 .hover-menu {
     box-sizing:border-box;
     position:absolute;
@@ -182,9 +195,12 @@ p {
 }
 .player-flair {
     position:absolute;
-    height:100%;
+    top:50%;
+    padding:10px 0px;
+    text-align:center;
+    font-size:18px;
     width:100%;
-    background:red;
+    background:white;
 }
 .start-game {
     margin:20px 0px;

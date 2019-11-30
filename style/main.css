@@ -31,11 +31,21 @@ p {
 .page__message {
   background: white;
   position: fixed;
+  z-index: 3;
   border: 1px solid #333333;
   padding: 20px;
+  padding-bottom: 70px;
   left: 50%;
   transform: translate(-50%, 0);
   display: none;
+}
+.page__message h1 {
+  text-align: center;
+}
+.page__message .btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 .page__logo {
   padding: 50px 0px 20px 0px;
@@ -109,6 +119,34 @@ p {
     transform: rotate(0deg);
   }
 }
+.btn {
+  padding: 10px 20px;
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  background: #4b4b4b;
+  cursor: pointer;
+}
+.btn a {
+  display: block;
+  text-decoration: none;
+  color: white;
+}
+.btn--red {
+  background: #C1272D;
+}
+.btn--green {
+  background: #39B54A;
+}
+.btn--green:disabled {
+  background: #afafaf;
+}
+.btn--blue {
+  background: #0071BC;
+}
+
 .icons {
   display: none;
 }
@@ -145,31 +183,6 @@ p {
   display: block;
 }
 
-.btn {
-  padding: 10px 20px;
-  outline: none;
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  background: #4b4b4b;
-  cursor: pointer;
-}
-.btn a {
-  display: block;
-  text-decoration: none;
-  color: white;
-}
-.btn--reset {
-  background: red;
-}
-.btn--start {
-  background: lightseagreen;
-}
-.btn--start:disabled {
-  background: #afafaf;
-}
-
 .hover-menu {
   box-sizing: border-box;
   position: absolute;
@@ -190,9 +203,12 @@ p {
 
 .player-flair {
   position: absolute;
-  height: 100%;
+  top: 50%;
+  padding: 10px 0px;
+  text-align: center;
+  font-size: 18px;
   width: 100%;
-  background: red;
+  background: white;
 }
 
 .start-game {
