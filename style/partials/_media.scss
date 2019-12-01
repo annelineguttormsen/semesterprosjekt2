@@ -19,10 +19,48 @@
         &__wrap {
             padding:0px 10px;
         }
+        &__hero {
+            height:auto;
+            padding:10px 0px 20px 0px;
+            img {
+                padding:10px 0px;
+            }
+            .inline-div {
+                display:block;
+                margin:0 auto;
+            }
+        }
+    }
+    .character-select {
+        &__titles {
+            font-size:18px;
+        }
+        .card {
+            padding:0;
+        }
+    }
+    .hover-menu {
+        display:none;
+    }
+    .mobile-menu {
+        display:block;
+    }
+}
+@media only screen and (max-width:500px) {
+    .btn {
+        font-size:14px;
+    }
+    .page {
+        &__hero {
+            text-align:center;
+        }
     }
     .character-select {
         .card {
-            padding:0;
+            width:50%;
+        }
+        h2 {
+            padding:20px 0px 10px 0px;
         }
     }
 }

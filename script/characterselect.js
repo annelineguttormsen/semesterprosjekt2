@@ -1,4 +1,4 @@
-const startGameButton = document.querySelector(".btn--green");
+const startGameButton = document.querySelector(".btn--start");
 const pageWarning = document.querySelector(".page__warning");
 startGameButton.disabled = true;
 
@@ -20,6 +20,7 @@ function chooseCharacter(id) {
         playerFlair.className = "player-flair";
         playerFlair.innerHTML = "Player 1";
         cardDivs[id].appendChild(playerFlair);
+        localStorage.setItem("player1",chosenCharacter1);
         console.log(playerFlair);
         console.log("player1 satt");
     } 
@@ -31,6 +32,13 @@ function chooseCharacter(id) {
         }
         chosenCharacter2 = id;
         player2Active = false;
+        //legg til flair
+        let playerFlair = document.createElement("div");
+        playerFlair.className = "player-flair";
+        playerFlair.innerHTML = "Player 2";
+        cardDivs[id].appendChild(playerFlair);
+        localStorage.setItem("player2",chosenCharacter2);
+
         console.log("player2 satt");
         startGameButton.disabled = false;
         pageWarning.style.display = "none";
@@ -38,15 +46,18 @@ function chooseCharacter(id) {
 }
 
 function resetCharacters() {
+    console.log("tilbakestill karakterer");
     player1Active = true;
     startGameButton.disabled = true;
-}
-
-function setCharacterInLS() {
-    localStorage.setItem("player1",chosenCharacter1);
-    localStorage.setItem("player2",chosenCharacter2);
-    console.log(localStorage.getItem("player2"));
-    window.location = "file:///C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/index.html";
+    
+    let playerFlair = document.getElementsByClassName("player-flair");
+    if (playerFlair.length > 1) {
+        playerFlair[0].style.display = "none";
+        playerFlair[1].style.display = "none";
+    } else {
+        playerFlair[0].style.display = "none";
+    }
+    localStorage.clear();
 }
 
 //ajax
@@ -77,7 +88,7 @@ function infoHousesAjax(id) {
     }
     //gjør .page__message synlig, fjern innhold
     messageDiv.style.display = "block";
-    messageDiv.innerHTML = "<button onclick=\"removeMessage()\"class=\"btn btn--blue\">OK</button>";
+    messageDiv.innerHTML = "<button onclick=\"removeMessage(this)\"class=\"btn btn--blue\">OK</button>";
     let infoArray = ["words","region","coatOfArms"];
     makeElement("h1","",indexHouses[id].name,messageDiv);
     makeElement("p","Words: ",indexHouses[id].words,messageDiv);
@@ -97,6 +108,10 @@ function makeElement(elmt,boldcontent,content,pElmt) {
     pElmt.appendChild(element);
 }
 
-function removeMessage() {
-    messageDiv.style.display = "none";
+function removeMessage(elmt) {
+    elmt.parentElement.style.display = "none";
+}
+
+function startGame() {
+    window.location = "index.html";
 }

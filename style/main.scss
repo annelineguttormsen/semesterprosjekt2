@@ -2,7 +2,7 @@
 
 @font-face {
     font-family:"GoT";
-    src:url("C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/media/gotfont.ttf") format("truetype");
+    src:url("https://angu.no/semesterprosjekt2/media/gotfont.ttf") format("truetype");
 }
 * {
     margin:0;
@@ -11,13 +11,45 @@
 }
 h1,h2,h3 {
     font-family:"GoT";
-    padding:20px 0px;
+    padding:10px 0px 20px 0px;
     color:$text-color;
     font-weight:normal;
 }
 p {
     padding:10px 0px;
     color:$text-color;
+}
+hr{
+    border-left:none;
+}
+.btn {
+    padding:10px 20px;
+    outline:none;
+    border:none;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    text-shadow:0px 0px 1px black;
+    background:#4b4b4b;
+    cursor:pointer;
+    a {
+        display:block;
+        text-decoration:none;
+        color:white;
+    }
+    &--red {
+        background:$red;
+    }
+    &--green {
+        background:$green;
+    }
+    &--blue {
+        background:$blue;
+    }
+    &:disabled {
+        background:rgb(175, 175, 175);
+        cursor:default;
+    }
 }
 .page {
     background:#ffffff;
@@ -96,9 +128,8 @@ p {
         }
     }
     &__hero {
-        height:800px;
+        padding:100px 0px;
         .inline-div {
-            padding-top:100px;
             display:inline-block;
             vertical-align:top;
         }
@@ -115,33 +146,16 @@ p {
     from {transform:rotate(359deg)}
     to {transform:rotate(0deg)}
 }
-.btn {
-    padding:10px 20px;
-    outline:none;
-    border:none;
-    color:white;
-    font-size:18px;
-    font-weight:700;
-    background:#4b4b4b;
-    cursor:pointer;
-    a {
-        display:block;
-        text-decoration:none;
-        color:white;
+.hero {
+    &__title {
+        font-size:24px;
     }
-    &--red {
-        background:$red;
-    }
-    &--green {
-        background:$green;
-        &:disabled {
-            background:rgb(175, 175, 175);
-        }
-    }
-    &--blue {
-        background:$blue;
+    &__img {
+        display:block;        
+        margin:0 auto;
     }
 }
+
 .icons {
     display:none;
 }
@@ -176,21 +190,15 @@ p {
         }
     }
 }
-.hover-menu {
-    box-sizing:border-box;
-    position:absolute;
-    height:100%;
-    width:100%;
-    opacity:0;
-    transition:.2s linear;
-    background:rgba(255,255,255,0.5);
-    padding-top:100px;
-    &:hover {
-        opacity:1;
-    }
-    &__btn {
+.card-menu {
+    .btn {
         display:block;
-        margin:20px auto;
+        width:80%;
+        margin:5px auto;
+        text-shadow:none;
+        color:$text-color;
+        border:1px solid $text-color;
+        background:white;
     }
 }
 .player-flair {

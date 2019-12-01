@@ -1,6 +1,6 @@
 @font-face {
   font-family: "GoT";
-  src: url("C:/Users/Annel/Documents/noroff/design2/git/semesterprosjekt2/media/gotfont.ttf") format("truetype");
+  src: url("https://angu.no/semesterprosjekt2/media/gotfont.ttf") format("truetype");
 }
 * {
   margin: 0;
@@ -10,7 +10,7 @@
 
 h1, h2, h3 {
   font-family: "GoT";
-  padding: 20px 0px;
+  padding: 10px 0px 20px 0px;
   color: #333333;
   font-weight: normal;
 }
@@ -18,6 +18,40 @@ h1, h2, h3 {
 p {
   padding: 10px 0px;
   color: #333333;
+}
+
+hr {
+  border-left: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0px 0px 1px black;
+  background: #4b4b4b;
+  cursor: pointer;
+}
+.btn a {
+  display: block;
+  text-decoration: none;
+  color: white;
+}
+.btn--red {
+  background: #c7464a;
+}
+.btn--green {
+  background: #51b95f;
+}
+.btn--blue {
+  background: #4a8cb8;
+}
+.btn:disabled {
+  background: #afafaf;
+  cursor: default;
 }
 
 .page {
@@ -96,10 +130,9 @@ p {
   animation: spin 1.5s ease-in-out infinite;
 }
 .page__hero {
-  height: 800px;
+  padding: 100px 0px;
 }
 .page__hero .inline-div {
-  padding-top: 100px;
   display: inline-block;
   vertical-align: top;
 }
@@ -119,32 +152,12 @@ p {
     transform: rotate(0deg);
   }
 }
-.btn {
-  padding: 10px 20px;
-  outline: none;
-  border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  background: #4b4b4b;
-  cursor: pointer;
+.hero__title {
+  font-size: 24px;
 }
-.btn a {
+.hero__img {
   display: block;
-  text-decoration: none;
-  color: white;
-}
-.btn--red {
-  background: #C1272D;
-}
-.btn--green {
-  background: #39B54A;
-}
-.btn--green:disabled {
-  background: #afafaf;
-}
-.btn--blue {
-  background: #0071BC;
+  margin: 0 auto;
 }
 
 .icons {
@@ -183,22 +196,14 @@ p {
   display: block;
 }
 
-.hover-menu {
-  box-sizing: border-box;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: 0.2s linear;
-  background: rgba(255, 255, 255, 0.5);
-  padding-top: 100px;
-}
-.hover-menu:hover {
-  opacity: 1;
-}
-.hover-menu__btn {
+.card-menu .btn {
   display: block;
-  margin: 20px auto;
+  width: 80%;
+  margin: 5px auto;
+  text-shadow: none;
+  color: #333333;
+  border: 1px solid #333333;
+  background: white;
 }
 
 .player-flair {
@@ -233,9 +238,47 @@ p {
   .page__wrap {
     padding: 0px 10px;
   }
+  .page__hero {
+    height: auto;
+    padding: 10px 0px 20px 0px;
+  }
+  .page__hero img {
+    padding: 10px 0px;
+  }
+  .page__hero .inline-div {
+    display: block;
+    margin: 0 auto;
+  }
 
+  .character-select__titles {
+    font-size: 18px;
+  }
   .character-select .card {
     padding: 0;
+  }
+
+  .hover-menu {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .btn {
+    font-size: 14px;
+  }
+
+  .page__hero {
+    text-align: center;
+  }
+
+  .character-select .card {
+    width: 50%;
+  }
+  .character-select h2 {
+    padding: 20px 0px 10px 0px;
   }
 }
 [class^=col] {
