@@ -70,6 +70,7 @@ hr {
   padding: 20px;
   padding-bottom: 70px;
   left: 50%;
+  top: 20%;
   transform: translate(-50%, 0);
   display: none;
 }
@@ -96,6 +97,7 @@ hr {
   display: none;
   background: #e23d20;
   position: fixed;
+  z-index: 4;
   top: 50px;
   padding: 20px;
   margin: 10px;
@@ -249,16 +251,15 @@ hr {
     display: block;
     margin: 0 auto;
   }
+  .page__message {
+    top: 10%;
+  }
 
   .character-select__titles {
     font-size: 18px;
   }
   .character-select .card {
     padding: 0;
-  }
-
-  .hover-menu {
-    display: none;
   }
 
   .mobile-menu {

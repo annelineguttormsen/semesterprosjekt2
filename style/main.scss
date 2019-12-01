@@ -66,6 +66,7 @@ hr{
         padding:20px;
         padding-bottom:70px;
         left: 50%;
+        top:20%;
         transform: translate(-50%, 0);
         display:none;
         h1 {
@@ -94,6 +95,7 @@ hr{
         display:none;
         background:rgb(226, 61, 32);
         position:fixed;
+        z-index:4;
         top:50px;
         padding:20px;
         margin:10px;
@@ -221,6 +223,18 @@ hr{
     clear: both;
     display: table;
 }
+// .winner-graphic {
+//     &__p1 {
+        
+//     }
+//     &__p2 {
+
+//     }
+//     &__podium {
+        
+//     }
+// }
+
 
 @import "partials/media";
 @import "partials/col";

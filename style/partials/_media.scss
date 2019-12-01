@@ -30,6 +30,9 @@
                 margin:0 auto;
             }
         }
+        &__message {
+            top:10%;
+        }
     }
     .character-select {
         &__titles {
@@ -38,9 +41,6 @@
         .card {
             padding:0;
         }
-    }
-    .hover-menu {
-        display:none;
     }
     .mobile-menu {
         display:block;

@@ -12,6 +12,10 @@ let cardDivs = document.querySelectorAll(".card");
 let messageDiv = document.querySelector(".page__message");
 
 function chooseCharacter(id) {
+    if (player1Active == false && player2Active == false) {
+        console.log("alle karakterer satt");
+        return;
+    }
     if (player1Active) {
         chosenCharacter1 = id;
         player1Active = false;
@@ -38,7 +42,6 @@ function chooseCharacter(id) {
         playerFlair.innerHTML = "Player 2";
         cardDivs[id].appendChild(playerFlair);
         localStorage.setItem("player2",chosenCharacter2);
-
         console.log("player2 satt");
         startGameButton.disabled = false;
         pageWarning.style.display = "none";
@@ -49,14 +52,12 @@ function resetCharacters() {
     console.log("tilbakestill karakterer");
     player1Active = true;
     startGameButton.disabled = true;
-    
     let playerFlair = document.getElementsByClassName("player-flair");
-    if (playerFlair.length > 1) {
-        playerFlair[0].style.display = "none";
-        playerFlair[1].style.display = "none";
-    } else {
-        playerFlair[0].style.display = "none";
+    console.log(playerFlair);
+    for (let i=0;i<playerFlair.length;i++) {
+        playerFlair[i].style.display = "none";
     }
+    console.log(playerFlair[0] + playerFlair[1]);
     localStorage.clear();
 }
 

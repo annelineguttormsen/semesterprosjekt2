@@ -399,7 +399,7 @@ function canvasMessage(info) {
 function winGame(token) {
     diceObject.activeEventListener = false;
     winActiveEventListener = true;
-    localStorage.setItem("winner", token.name);
+    localStorage.setItem("winnerName", token.name);
     ctx.drawImage(messageBG,190,125);
     ctx.beginPath();
     ctx.font = "18px Karla";
