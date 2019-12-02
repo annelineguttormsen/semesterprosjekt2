@@ -114,5 +114,5 @@ function removeMessage(elmt) {
 }
 
 function startGame() {
-    window.location = "index.html";
+    window.location = "boardgame.html";
 }

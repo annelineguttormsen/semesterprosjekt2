@@ -28,26 +28,28 @@ hr {
   padding: 10px 20px;
   outline: none;
   border: none;
-  color: white;
   font-size: 18px;
   font-weight: 700;
-  text-shadow: 0px 0px 1px black;
-  background: #4b4b4b;
+  color: #000;
+  background: #fff;
   cursor: pointer;
 }
 .btn a {
   display: block;
   text-decoration: none;
-  color: white;
+  color: black;
 }
 .btn--red {
   background: #c7464a;
+  color: #fff;
 }
 .btn--green {
   background: #51b95f;
+  color: #fff;
 }
 .btn--blue {
   background: #4a8cb8;
+  color: #fff;
 }
 .btn:disabled {
   background: #afafaf;
@@ -100,13 +102,15 @@ hr {
   z-index: 4;
   top: 50px;
   padding: 20px;
-  margin: 10px;
+  margin: 10px auto;
   text-align: center;
 }
 .page__warning img, .page__warning p {
-  display: inline-block;
+  display: block;
+  margin: 0 auto;
   vertical-align: top;
-  float: left;
+  color: #fff;
+  font-weight: 700;
 }
 .page__warning img {
   height: 50px;

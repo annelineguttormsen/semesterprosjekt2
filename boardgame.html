@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Untitled Game of Thrones Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/main.css" />
+    <script src="script/boardgame.js" defer></script>
+</head>
+<body class="page">
+    <div class="page__load"><img src="media/loading-icon.svg"></div>
+    <button class="btn"><a href="index.html">Go Back</a></button>
+    <div class="page__logo">
+        <h1>Untitled Got Game</h1>
+        <hr>
+    </div>
+    <div class="col-12 page__warning page__warning--screen">
+        <img class="col-2" src="media/warning.png"/>
+        <p class="col-10 clearfix">The viewing screen must be at least 800 pixels in width for the best game experience. Either turn up your browser's screen resolution or change to a device with a bigger screen.</p>
+    </div>
+    <div class="col-12 page__warning page__warning--character">
+        <img class="col-2" src="media/warning.png"/>
+        <p class="col-10">Characters have not been chosen, please go back to character select and choose your characters.</p>
+        <button class="btn clearfix"><a href="index.html">Go back</a></button>
+    </div>
+    <div class="icons">
+        <img class="player1--img" src="media/player1.png">
+        <img class="player2--img" src="media/player2.png">
+        <img class="trap--img" src="media/trap.png">
+        <img class="message--img" src="media/messagebg.png">
+        <img class="onepip--img" src="media/1pip.png">
+        <img class="twopip--img" src="media/2pip.png">
+        <img class="threepip--img" src="media/3pip.png">
+        <img class="fourpip--img" src="media/4pip.png">
+        <img class="fivepip--img" src="media/5pip.png">
+        <img class="sixpip--img" src="media/6pip.png">
+        <!--houses-->
+        <img class="housebaratheon" src="media/housebaratheon.png">
+        <img class="houselannister" src="media/houselannister.png">
+        <img class="housestark" src="media/housestark.png">
+        <img class="housetyrell" src="media/housetyrell.png">
+        <img class="housetargaryen" src="media/housetargaryen.png">
+        <img class="housetully" src="media/housetully.png">
+    </div>
+    <div class="canvas-wrap">
+    <canvas height="500" width="800" id="boardgame"></canvas>
+    </div>
+</body>
+</html>
