@@ -106,6 +106,7 @@ hr {
 .page__warning img, .page__warning p {
   display: inline-block;
   vertical-align: top;
+  float: left;
 }
 .page__warning img {
   height: 50px;

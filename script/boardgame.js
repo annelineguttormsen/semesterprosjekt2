@@ -21,8 +21,8 @@ const characterImg = [
 ];
 
 //audio
-let victoryAudio = new Audio("./audio/victory.WAV");
-let introAudio = new Audio("./audio/introtoot.WAV");
+// let victoryAudio = new Audio("./audio/victory.WAV");
+// let introAudio = new Audio("./audio/introtoot.WAV");
 
 //ikoner
 const player1Icon = document.querySelector(".player1--img");
@@ -107,7 +107,6 @@ class Player {
                                 messageObject.trapFunction = function() {
                                     allTraps[y].trapFunction(thisObject);
                                 }
-                                updateBanner();
                                 canvasMessage(allTraps[y].infoText);
                             },300*i);
                         }
@@ -170,6 +169,7 @@ class Trap {
                     calculatePosition(playerArray[z],playerArray[z].boardPlaceNumber);
                 }
             }
+            token.animateSliding(token.boardPlaceNumber,token.boardPlaceNumber,false);
         }
         if (!token.activeTurn) {
             console.log(token.name + " har ikke activeTurn");
@@ -254,15 +254,12 @@ let messageObject = {
     trapFunction: function() {
         allTraps[0].trapFunction(player1);
     },
-    xPos:350,
-    yPos:250,
-    width:100,
-    height:30
+    xPos:90,
+    yPos:125
 }
 
 function rollDice(token) {
     dice = Math.ceil(Math.random()*6);
-    //dice = 2;
     diceObject.pips = dice;
     oldBoardPlaceNumber = token.boardPlaceNumber;
     //endre token sitt bPN til det nye, viktig så animatesliding metode blir riktig
@@ -305,13 +302,13 @@ function updateBoard() {
 }
 
 function updateBanner() {
-    ctx.clearRect(580,0,320,200);
+    ctx.clearRect(580,0,320,250);
     ctx.drawImage(activePlayer.imgNr,600,100,150,150);
 }
 
 function updatePlayerAndDice() {
     //draw playerinfo
-    ctx.clearRect(580,580,320,canvas.height);
+    ctx.clearRect(580,250,320,canvas.height);
     if (diceObject.pips != 0) {
         ctx.drawImage((pips[diceObject.pips-1]),600,320,150,150);
     }
@@ -347,6 +344,7 @@ function mousePosition(event) {
     //regn ut posisjon av museklikk på canvas elementet
     let canvasX = x - canvasInfo.left;
     let canvasY = y - canvasInfo.top;
+    console.log("x: " + canvasX + ", og y: " + canvasY);
     if (diceObject.activeEventListener) {
         if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
             if (canvasY < (diceObject.yPos + diceObject.height)) {
@@ -355,10 +353,9 @@ function mousePosition(event) {
         }
     }
     if (messageObject.activeEventListener) {
-        if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
-            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.height)) {
+        if (canvasX > 250 && canvasY > 245) {
+            if (canvasX < 350 && canvasY < 280) {
                 updateBoard();
-                updateBanner();
                 updatePlayerAndDice();
                 //message skal fjernes, så gjør om til false
                 //dice object skal kunne brukes igjen, så sett til true
@@ -371,8 +368,8 @@ function mousePosition(event) {
         }
     }
     if (winActiveEventListener) {
-        if (canvasX > messageObject.xPos && canvasY > messageObject.yPos) {
-            if (canvasX < (messageObject.xPos + messageObject.width) && canvasY < (messageObject.yPos + messageObject.height)) {
+        if (canvasX > 250 && canvasY > 245) {
+            if (canvasX < 350 && canvasY < 280) {
                 window.location = "winnerpage.html";
             }
         }
@@ -382,7 +379,7 @@ function mousePosition(event) {
 
 function canvasMessage(info) {
     messageObject.activeEventListener = true;
-    ctx.drawImage(messageBG,190,125);
+    ctx.drawImage(messageBG,messageObject.xPos,messageObject.yPos);
     let sentences = info.split("\n");
     let i;
     for (i = 0;i<sentences.length;i++) {
@@ -391,7 +388,7 @@ function canvasMessage(info) {
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
         ctx.textBaseline = "hanging";
-        ctx.fillText(sentences[i],400,(150+(30*i)));
+        ctx.fillText(sentences[i],300,(150+(30*i)));
         ctx.closePath();
     }
 }
@@ -400,15 +397,15 @@ function winGame(token) {
     diceObject.activeEventListener = false;
     winActiveEventListener = true;
     localStorage.setItem("winnerName", token.name);
-    ctx.drawImage(messageBG,190,125);
+    ctx.drawImage(messageBG,messageObject.xPos,messageObject.yPos);
     ctx.beginPath();
     ctx.font = "18px Karla";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.textBaseline = "hanging";
-    ctx.fillText((token.name + " won!"),400,150);
-    ctx.fillText("You've bested your opponent in a game of luck",400,180);
-    ctx.fillText("Go on and reap your reward!",400,210);
+    ctx.fillText((token.name + " won!"),300,150);
+    ctx.fillText("You've bested your opponent in a game of luck",300,180);
+    ctx.fillText("Go on and reap your reward!",300,210);
     ctx.closePath();
 }
 
