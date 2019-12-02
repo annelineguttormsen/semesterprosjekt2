@@ -9,7 +9,8 @@ function canvasEventListener() {
 canvas.addEventListener("click",canvasEventListener);
 
 //globale variabler
-let dice, oldBoardPlaceNumber;
+let dice, oldBoardPlaceNumber, 
+    activeTrap = false;
 
 const characterImg = [
     document.querySelector(".housebaratheon"),
@@ -76,8 +77,8 @@ class Player {
                             if (playerArray[z].activeTurn) {
                                 activePlayer = playerArray[z];
                             }
-                            console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
                         }
+                        updateBanner();
                     },300*i);
                 }
             }
@@ -90,11 +91,9 @@ class Player {
                     i++;
                 }(oBPN));
                 if (oBPN == 30) {
-                    console.log("noen vant");
                     setTimeout(function(){
                         canvas.addEventListener("click",canvasEventListener);
                         winGame(thisObject);
-                        console.log("legg til canvas eventlistener");
                     },300*i);
                     break;
                 }
@@ -102,6 +101,7 @@ class Player {
                     //sjekk om player har havnet på en felle
                     for (let y = 0;y<allTraps.length;y++) {
                         if (bPN == allTraps[y].boardPlaceNumber) {
+                            activeTrap = true;
                             setTimeout(function(){
                                 diceObject.activeEventListener = false;
                                 messageObject.trapFunction = function() {
@@ -111,7 +111,7 @@ class Player {
                             },300*i);
                         }
                     }
-                    //fjern eventlistener fra canvas inntil brikken er ferdig å flytte på seg
+                    //legg til eventlistener på canvas når brikken er ferdig å flytte på seg
                     setTimeout((function(){
                         canvas.addEventListener("click",canvasEventListener);
                         //gå gjennom playerarray og bytt om booleans
@@ -120,7 +120,11 @@ class Player {
                             if (playerArray[z].activeTurn) {
                                 activePlayer = playerArray[z];
                             }
-                            console.log(playerArray[z].name + " er nå " + playerArray[z].activeTurn);
+                        }
+                        if (!activeTrap) {
+                            updateBanner();
+                        } else {
+                            activeTrap = false;
                         }
                     }),300*i);
                 }
@@ -172,7 +176,6 @@ class Trap {
             token.animateSliding(token.boardPlaceNumber,token.boardPlaceNumber,false);
         }
         if (!token.activeTurn) {
-            console.log(token.name + " har ikke activeTurn");
             for (let z in playerArray) {
                 playerArray[z].activeTurn = !playerArray[z].activeTurn;
                 if (playerArray[z].activeTurn) {
@@ -267,7 +270,6 @@ function rollDice(token) {
     //gå til token og animer at spillebrikken går over brettet
     token.animateSliding(oldBoardPlaceNumber,token.boardPlaceNumber);
     updatePlayerAndDice();
-    console.log("du rullet " + dice + " og er nå på " + token.boardPlaceNumber);
 }
 
 function calculatePosition(token, boardPlaceNumber) {
@@ -344,7 +346,6 @@ function mousePosition(event) {
     //regn ut posisjon av museklikk på canvas elementet
     let canvasX = x - canvasInfo.left;
     let canvasY = y - canvasInfo.top;
-    console.log("x: " + canvasX + ", og y: " + canvasY);
     if (diceObject.activeEventListener) {
         if (canvasX > diceObject.xPos && canvasY > diceObject.yPos) {
             if (canvasY < (diceObject.yPos + diceObject.height)) {
@@ -374,7 +375,6 @@ function mousePosition(event) {
             }
         }
     }
-    console.log("mouseposition er tilkalt");
 }
 
 function canvasMessage(info) {
