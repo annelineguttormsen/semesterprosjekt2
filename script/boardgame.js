@@ -212,7 +212,7 @@ let playerArray = [player1,player2];
 let activePlayer = player1;
 
 //fresh hjelp fra stackoverflow, min gud
-//bruk en "fisher-yates shuffle" for å shuffle tall mellom 2-29
+//bruk en "fisher-yates shuffle" for å shuffle tall mellom 6-29
 //deretter velg en tilfeldig index (minus 5) og velg de neste 5 tallene
 function shuffleArray(array) {
     let i = array.length,
