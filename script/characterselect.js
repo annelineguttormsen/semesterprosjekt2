@@ -1,5 +1,8 @@
 const startGameButton = document.querySelector(".btn--start");
 const pageWarning = document.querySelector(".page__warning");
+const playerFlair1 = document.querySelector(".player1-flair");
+const playerFlair2 = document.querySelector(".player2-flair");
+
 startGameButton.disabled = true;
 
 let chosenCharacter1;
@@ -20,12 +23,11 @@ function chooseCharacter(id) {
         chosenCharacter1 = id;
         player1Active = false;
         player2Active = true;
-        let playerFlair = document.createElement("div");
-        playerFlair.className = "player-flair";
-        playerFlair.innerHTML = "Player 1";
-        cardDivs[id].appendChild(playerFlair);
+        // let playerFlair = document.createElement("img");
+        // playerFlair.className = "player-flair";
+        // playerFlair.src = "media/player1-flair.svg";
+        cardDivs[id].appendChild(playerFlair1);
         localStorage.setItem("player1",chosenCharacter1);
-        console.log(playerFlair);
         console.log("player1 satt");
     } 
     else if(player2Active) {
