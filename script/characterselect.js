@@ -1,7 +1,5 @@
 const startGameButton = document.querySelector(".btn--start");
 const pageWarning = document.querySelector(".page__warning");
-const playerFlair1 = document.querySelector(".player1-flair");
-const playerFlair2 = document.querySelector(".player2-flair");
 
 startGameButton.disabled = true;
 
@@ -23,10 +21,11 @@ function chooseCharacter(id) {
         chosenCharacter1 = id;
         player1Active = false;
         player2Active = true;
-        // let playerFlair = document.createElement("img");
-        // playerFlair.className = "player-flair";
-        // playerFlair.src = "media/player1-flair.svg";
-        cardDivs[id].appendChild(playerFlair1);
+        //legg til flair
+        let img = document.createElement("img");
+        img.src = "media/player1-flair.svg";
+        img.className = "player-flair";
+        cardDivs[id].appendChild(img);
         localStorage.setItem("player1",chosenCharacter1);
         console.log("player1 satt");
     } 
@@ -39,10 +38,10 @@ function chooseCharacter(id) {
         chosenCharacter2 = id;
         player2Active = false;
         //legg til flair
-        let playerFlair = document.createElement("div");
-        playerFlair.className = "player-flair";
-        playerFlair.innerHTML = "Player 2";
-        cardDivs[id].appendChild(playerFlair);
+        let img = document.createElement("img");
+        img.src = "media/player2-flair.svg";
+        img.className = "player-flair";
+        cardDivs[id].appendChild(img);
         localStorage.setItem("player2",chosenCharacter2);
         console.log("player2 satt");
         startGameButton.disabled = false;
@@ -54,12 +53,12 @@ function resetCharacters() {
     console.log("tilbakestill karakterer");
     player1Active = true;
     startGameButton.disabled = true;
-    let playerFlair = document.getElementsByClassName("player-flair");
-    console.log(playerFlair);
-    for (let i=0;i<playerFlair.length;i++) {
-        playerFlair[i].style.display = "none";
+    let playerFlairs = document.querySelectorAll(".player-flair");
+    console.log(playerFlairs);
+    for (let i = 0; i<playerFlairs.length;i++) {
+        console.log("hallo");
+        playerFlairs[i].style.display = "none";
     }
-    console.log(playerFlair[0] + playerFlair[1]);
     localStorage.clear();
 }
 
