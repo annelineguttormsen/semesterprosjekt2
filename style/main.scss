@@ -39,10 +39,12 @@ hr{
     &--red {
         background:$red;
         color:#fff;
+        text-shadow:1px 2px $text-color;
     }
     &--green {
         background:$green;
         color:#fff;
+        text-shadow:1px 2px $text-color;
     }
     &--blue {
         background:$blue;

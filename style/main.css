@@ -42,10 +42,12 @@ hr {
 .btn--red {
   background: #c7464a;
   color: #fff;
+  text-shadow: 1px 2px #333333;
 }
 .btn--green {
   background: #51b95f;
   color: #fff;
+  text-shadow: 1px 2px #333333;
 }
 .btn--blue {
   background: #4a8cb8;

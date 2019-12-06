@@ -30,6 +30,8 @@ const player1Icon = document.querySelector(".player1--img");
 const player2Icon = document.querySelector(".player2--img");
 const trapIcon = document.querySelector(".trap--img");
 const messageBG = document.querySelector(".message--img");
+const player1Flair = document.querySelector(".player1-flair");
+const player2Flair = document.querySelector(".player2-flair");
 
 const onepip = document.querySelector(".onepip--img");
 const twopip = document.querySelector(".twopip--img");
@@ -47,7 +49,7 @@ let pips = [
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name) {
+    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name,flair) {
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -55,6 +57,7 @@ class Player {
         this.imgNr = characterImg[imgNr];
         this.activeTurn = activeTurn;
         this.name = name;
+        this.flair = flair;
     }
     animateSliding(oBPN, bPN, goForward) {
         canvas.removeEventListener("click",canvasEventListener);
@@ -206,8 +209,8 @@ let winActiveEventListener = false;
 let player1ImgNr = localStorage.getItem("player1");
 let player2ImgNr = localStorage.getItem("player2");
 
-let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true,"Player 1");
-let player2 = new Player(1,20,20, "tomato", player2ImgNr,false, "Player 2");
+let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true,"Player 1",player1Flair);
+let player2 = new Player(1,20,20, "tomato", player2ImgNr,false, "Player 2",player2Flair);
 let playerArray = [player1,player2];
 let activePlayer = player1;
 
@@ -297,7 +300,7 @@ function calculatePosition(token, boardPlaceNumber) {
 }
 
 function updateBoard() {
-    ctx.clearRect(0,0,580,canvas.height);
+    ctx.clearRect(0,0,570,canvas.height);
     drawTraps();
     //draw players
     drawPlayers();
@@ -306,6 +309,7 @@ function updateBoard() {
 function updateBanner() {
     ctx.clearRect(580,0,320,250);
     ctx.drawImage(activePlayer.imgNr,600,100,150,150);
+    ctx.drawImage(activePlayer.flair,575,80,200,60);
 }
 
 function updatePlayerAndDice() {
