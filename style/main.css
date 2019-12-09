@@ -58,6 +58,11 @@ hr {
   cursor: default;
 }
 
+.inline-div {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .page {
   background: #ffffff;
 }
@@ -141,10 +146,6 @@ hr {
 }
 .page__hero {
   padding: 100px 0px;
-}
-.page__hero .inline-div {
-  display: inline-block;
-  vertical-align: top;
 }
 .page__hero .content-text {
   font-size: 20px;
@@ -234,6 +235,33 @@ hr {
   content: "";
   clear: both;
   display: table;
+}
+
+.winner-graphic__podium {
+  width: 500px;
+  margin-top: 250px;
+  position: relative;
+}
+.winner-graphic__winner, .winner-graphic__loser, .winner-graphic__star {
+  position: absolute;
+  height: 240px;
+  width: 240px;
+}
+.winner-graphic__star {
+  height: 100px;
+  width: 100px;
+  left: 5px;
+  top: -225px;
+  animation: spin 4s ease-in-out infinite;
+}
+.winner-graphic__winner {
+  top: -230px;
+  left: 5px;
+}
+.winner-graphic__loser {
+  position: absolute;
+  right: 5px;
+  top: -80px;
 }
 
 @media only screen and (max-width: 800px) {

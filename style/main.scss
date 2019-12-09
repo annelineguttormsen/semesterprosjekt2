@@ -55,6 +55,10 @@ hr{
         cursor:default;
     }
 }
+.inline-div {
+    display:inline-block;
+    vertical-align:top;
+}
 .page {
     background:#ffffff;
     &__wrap {
@@ -139,10 +143,6 @@ hr{
     }
     &__hero {
         padding:100px 0px;
-        .inline-div {
-            display:inline-block;
-            vertical-align:top;
-        }
         .content-text {
             font-size:20px;
         }
@@ -228,17 +228,34 @@ hr{
     clear: both;
     display: table;
 }
-// .winner-graphic {
-//     &__p1 {
-        
-//     }
-//     &__p2 {
-
-//     }
-//     &__podium {
-        
-//     }
-// }
+.winner-graphic {
+    &__podium {
+        width:500px;
+        margin-top:250px;
+        position:relative;
+    }
+    &__winner, &__loser, &__star {
+        position:absolute;
+        height:240px;
+        width:240px;
+    }
+    &__star {
+        height:100px;
+        width:100px;
+        left:5px;
+        top:-225px;
+        animation:spin 4s ease-in-out infinite;
+    }
+    &__winner {
+        top:-230px;
+        left:5px;
+    }
+    &__loser {
+        position:absolute;
+        right:5px;
+        top:-80px;
+    }
+}
 
 
 @import "partials/media";
