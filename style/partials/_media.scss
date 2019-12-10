@@ -12,6 +12,15 @@
 }
 @media only screen and (max-width:992px) {
     //small
+    .winner-hero {
+        padding-top:10px;
+        text-align:center;
+    }
+    .winner-graphic {
+        &__podium {
+            margin:250px auto;
+        }
+    }
 }
 @media only screen and (max-width:768px) {
     //xs
@@ -21,7 +30,7 @@
         }
         &__logo {
             img {
-                width:100%;
+                width:80%;
             }
         }
         &__hero {
@@ -47,15 +56,17 @@
             padding:0;
         }
     }
-    .mobile-menu {
-        display:block;
-    }
 }
 @media only screen and (max-width:500px) {
     .btn {
         font-size:14px;
     }
     .page {
+        &__logo {
+            img {
+                width:100%;
+            }
+        }
         &__hero {
             text-align:center;
         }
