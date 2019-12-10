@@ -21,10 +21,6 @@ const characterImg = [
     document.querySelector(".housetully")
 ];
 
-//audio
-// let victoryAudio = new Audio("./audio/victory.WAV");
-// let introAudio = new Audio("./audio/introtoot.WAV");
-
 //ikoner
 const player1Icon = document.querySelector(".player1--img");
 const player2Icon = document.querySelector(".player2--img");
@@ -49,7 +45,8 @@ let pips = [
 
 //klasser
 class Player {
-    constructor(boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name,flair) {
+    constructor(id,boardPlaceNumber,xPos,yPos,bgColor,imgNr,activeTurn,name,flair) {
+        this.id = id;
         this.boardPlaceNumber = boardPlaceNumber;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -209,8 +206,8 @@ let winActiveEventListener = false;
 let player1ImgNr = localStorage.getItem("player1");
 let player2ImgNr = localStorage.getItem("player2");
 
-let player1 = new Player(1,20,20, "#3480eb", player1ImgNr,true,"Player 1",player1Flair);
-let player2 = new Player(1,20,20, "tomato", player2ImgNr,false, "Player 2",player2Flair);
+let player1 = new Player(player1ImgNr,1,20,20, "#3480eb", player1ImgNr,true,"Player 1",player1Flair);
+let player2 = new Player(player2ImgNr,1,20,20, "tomato", player2ImgNr,false, "Player 2",player2Flair);
 let playerArray = [player1,player2];
 let activePlayer = player1;
 
@@ -401,6 +398,15 @@ function winGame(token) {
     diceObject.activeEventListener = false;
     winActiveEventListener = true;
     localStorage.setItem("winnerName", token.name);
+    localStorage.setItem("winnerId",token.id);
+    for (let z in playerArray) {
+        playerArray[z].activeTurn = !playerArray[z].activeTurn;
+        if (playerArray[z].activeTurn) {
+            activePlayer = playerArray[z];
+        }
+    }
+    localStorage.setItem("loserName",activePlayer.name);
+    localStorage.setItem("loserId",activePlayer.id);
     ctx.drawImage(messageBG,messageObject.xPos,messageObject.yPos);
     ctx.beginPath();
     ctx.font = "18px Karla";
@@ -424,7 +430,6 @@ function startGame() {
     updatePlayerAndDice();
     document.fonts.load("18px Karla");
     pageLoad.style.display = "none";
-    
 }
 
 window.onload = startGame;
