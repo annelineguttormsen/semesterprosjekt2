@@ -223,7 +223,7 @@ hr{
     display: table;
 }
 .winner-graphic {
-    &__podium {
+    &__wrap {
         width:500px;
         margin-top:250px;
         position:relative;
@@ -259,6 +259,13 @@ hr{
     .btn {
         padding:10px 30px;
         margin-bottom:30px;
+    }
+}
+.cheater-div {
+    display:none;
+    text-align:center;
+    p {
+        padding-bottom:20px;
     }
 }
 .inline-div {

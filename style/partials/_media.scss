@@ -17,7 +17,7 @@
         text-align:center;
     }
     .winner-graphic {
-        &__podium {
+        &__wrap {
             margin:250px auto 20px auto;
         }
     }
@@ -54,6 +54,27 @@
         }
         .card {
             padding:0;
+        }
+    }
+    .winner-graphic {
+        &__wrap {
+            width:300px;
+            margin-top:140px;
+        }
+        &__winner, &__loser {
+            width:140px;
+            height:140px;
+        }
+        &__star {
+            height:50px;
+            width:50px;
+            top:-125px;
+        }
+        &__winner {
+            top:-130px;
+        }
+        &__loser {
+            top:-40px;
         }
     }
 }

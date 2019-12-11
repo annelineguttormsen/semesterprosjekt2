@@ -232,7 +232,7 @@ hr {
   display: table;
 }
 
-.winner-graphic__podium {
+.winner-graphic__wrap {
   width: 500px;
   margin-top: 250px;
   position: relative;
@@ -271,6 +271,14 @@ hr {
   margin-bottom: 30px;
 }
 
+.cheater-div {
+  display: none;
+  text-align: center;
+}
+.cheater-div p {
+  padding-bottom: 20px;
+}
+
 .inline-div {
   display: inline-block;
   vertical-align: top;
@@ -287,7 +295,7 @@ hr {
     text-align: center;
   }
 
-  .winner-graphic__podium {
+  .winner-graphic__wrap {
     margin: 250px auto 20px auto;
   }
 }
@@ -318,6 +326,26 @@ hr {
   }
   .character-select .card {
     padding: 0;
+  }
+
+  .winner-graphic__wrap {
+    width: 300px;
+    margin-top: 140px;
+  }
+  .winner-graphic__winner, .winner-graphic__loser {
+    width: 140px;
+    height: 140px;
+  }
+  .winner-graphic__star {
+    height: 50px;
+    width: 50px;
+    top: -125px;
+  }
+  .winner-graphic__winner {
+    top: -130px;
+  }
+  .winner-graphic__loser {
+    top: -40px;
   }
 }
 @media only screen and (max-width: 500px) {
