@@ -428,8 +428,8 @@ function startGame() {
     updateBoard();
     updateBanner();
     updatePlayerAndDice();
-    document.fonts.load("18px Karla");
+    //document.fonts.load("18px Karla");
     pageLoad.style.display = "none";
 }
 
-window.onload = startGame;
+window.addEventListener("load",startGame);

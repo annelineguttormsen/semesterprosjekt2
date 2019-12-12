@@ -19,9 +19,6 @@ p {
     padding:10px 0px;
     color:$text-color;
 }
-hr{
-    border-left:none;
-}
 .btn {
     padding:10px 20px;
     outline:none;
@@ -144,6 +141,8 @@ hr{
     &__line {
         width:75%;
         margin:0 auto;
+        border-left:none;
+        border-top:.5px solid #ccc;
     }
 }
 @keyframes spin {
@@ -259,6 +258,15 @@ hr{
     .btn {
         padding:10px 30px;
         margin-bottom:30px;
+    }
+}
+.footer {
+    padding:30px 0px 50px 0px;
+    &__list {
+        margin-top:20px;
+        list-style-type:none;
+        line-height:2;
+        text-align:center;
     }
 }
 .cheater-div {
